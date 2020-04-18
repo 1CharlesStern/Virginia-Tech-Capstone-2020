@@ -1,0 +1,31 @@
+* {
+  margin: auto;
+  text-align: center;
+}
+
+.limited {
+  /* Should match MAX_CHARS in typescript file*/
+  width: 25ch;
+}
+
+.inactive {
+  color: gray;
+}
+
+.section {
+  display: inline-block;
+  margin: 20px;
+}
+
+table {
+  font-size: 20px;
+  border-spacing: 12px;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h3 {
+  font-size: 20px;
+}

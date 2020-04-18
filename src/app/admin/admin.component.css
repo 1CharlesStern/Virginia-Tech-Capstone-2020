@@ -1,0 +1,35 @@
+.danger {
+  background-color: red;
+  color: white;
+  position: fixed;
+  bottom: 3%;
+  left: 25px;
+}
+
+.sidebar {
+  height: 100%;
+  width: 300px;
+  z-index: 1;
+  top: 40%;
+  left: 25px;
+  position: fixed;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.switcher {
+  position: fixed;
+  left: 35%;
+  right: 35%;
+  width: 30%;
+  bottom: 3%;
+}
+
+p {
+  border-style: solid;
+  font-size: 20px;
+}
+
+button, p {
+  margin-top: 20px;
+}

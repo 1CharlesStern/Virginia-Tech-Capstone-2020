@@ -1,0 +1,37 @@
+<table>
+  <tr>
+    <td *ngFor="let company of companies.slice(curPage*9, (curPage*9)+3)">
+      <mat-card class="mat-elevation-z8" *ngIf="company">
+        <mat-card-title class="title">{{ company }}</mat-card-title>
+        <mat-card-content>
+          <button type="button" class="clickable" (click)="openDialog(company)">Sign In</button>
+        </mat-card-content>
+      </mat-card>
+    </td>
+  </tr>
+  <tr>
+    <td *ngFor="let company of companies.slice((curPage*9)+3, (curPage*9)+6)">
+      <mat-card class="mat-elevation-z8" *ngIf="company">
+        <mat-card-title class="title">{{ company }}</mat-card-title>
+        <mat-card-content>
+          <button type="button" class="clickable" (click)="openDialog(company)">Sign In</button>
+        </mat-card-content>
+      </mat-card>
+    </td>
+  </tr>
+  <tr>
+    <td *ngFor="let company of companies.slice((curPage*9)+6, (curPage*9)+9)">
+      <mat-card class="mat-elevation-z8" *ngIf="company">
+        <mat-card-title class="title">{{ company }}</mat-card-title>
+        <mat-card-content>
+          <button type="button" class="clickable" (click)="openDialog(company)">Sign In</button>
+        </mat-card-content>
+      </mat-card>
+    </td>
+  </tr>
+</table>
+<div id="page-buttons">
+  <button type="button" class="arrow pager" (click)="paginate(curPage-1)"><mat-icon>arrow_back</mat-icon></button>
+  <button type="button" class="pager" *ngFor="let page of pages(); index as i" (click)="paginate(i)">{{ i+1 }}</button>
+  <button type="button" class="arrow pager" (click)="paginate(curPage+1)"><mat-icon>arrow_forward</mat-icon></button>
+</div>

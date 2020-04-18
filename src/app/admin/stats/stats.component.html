@@ -1,0 +1,48 @@
+<div id="upfront">
+  <div class="section">
+    <h1>{{numStudents}}</h1>
+    <h3>Number of Students</h3>
+  </div>
+  <div class="section">
+    <h1>{{numInterviews}}</h1>
+    <h3>Number of Interviews</h3>
+  </div>
+  <div class="section">
+    <h1>{{numCompanies}}</h1>
+    <h3>Number of Companies</h3>
+  </div>
+</div>
+<table>
+  <th>
+    Student Name
+    <div type="button" class="active" #studentDown (click)="sort(1, true)">
+      <span class="material-icons">keyboard_arrow_down</span>
+    </div>
+    <div type="button" #studentUp hidden (click)="sort(1, false)">
+      <span class="material-icons">keyboard_arrow_up</span>
+    </div>
+  </th>
+  <th>
+    Company Name
+    <div type="button" class="inactive" #companyDown (click)="sort(2, true)">
+      <span class="material-icons">keyboard_arrow_down</span>
+    </div>
+    <div type="button" #companyUp hidden (click)="sort(2, false)">
+      <span class="material-icons">keyboard_arrow_up</span>
+    </div>
+  </th>
+  <th>
+    Interview Time
+    <div type="button" class="inactive" #timeDown (click)="sort(3, true)">
+      <span class="material-icons">keyboard_arrow_down</span>
+    </div>
+    <div type="button" #timeUp hidden (click)="sort(3, false)">
+      <span class="material-icons">keyboard_arrow_up</span>
+    </div>
+  </th>
+  <tr *ngFor="let interview of data">
+    <td class="limited">{{interview.name}}</td>
+    <td class="limited">{{interview.company}}</td>
+    <td class="limited">{{formatDate(interview.time)}}</td>
+  </tr>
+</table>

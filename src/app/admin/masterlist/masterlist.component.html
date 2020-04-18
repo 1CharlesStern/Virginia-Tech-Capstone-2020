@@ -1,0 +1,28 @@
+<div>
+  <h1>Company Master List</h1>
+  <h4><span class="colored-text">Maroon</span> companies are in the selected Career Fair</h4>
+</div>
+<ul>
+  <div class="sort">
+    A-Z
+    <mat-icon #down *ngIf="ascendingSort" (click)="ascendingSort = false">keyboard_arrow_down</mat-icon>
+    <mat-icon #up *ngIf="!ascendingSort" (click)="ascendingSort = true">keyboard_arrow_up</mat-icon>
+  </div>
+  <li *ngFor="let company of data">
+    <div [className]="company.inFair ? 'colored item' : 'item'">
+      <p class="text">{{company.name}}</p>
+      <div class="icons">
+        <mat-icon *ngIf="!company.inFair" (click)="company.inFair = true">add_circle_outline</mat-icon>
+        <mat-icon *ngIf="company.inFair" (click)="company.inFair = false">remove_circle_outline</mat-icon>
+        <mat-icon>create</mat-icon>
+        <mat-icon>delete</mat-icon>
+      </div>
+    </div>
+  </li>
+</ul>
+<form>
+  <h1>Add New Company</h1>
+  <h4>Company Name:</h4>
+  <input type="text" name="name"><br>
+  <input type="submit" value="Submit">
+</form>

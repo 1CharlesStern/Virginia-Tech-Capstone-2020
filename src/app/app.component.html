@@ -1,0 +1,11 @@
+<h1 class="title">Career Fair Interview App</h1>
+<div id="button_container">
+  <button type="button" *ngIf="showAdmin && !testRoute('/admin')" routerLink="/admin" routerLinkActive="active">Administrator</button>
+  <button type="button" *ngIf="showStudent && !testRoute('/company')" routerLink="/company" routerLinkActive="active">Company</button>
+  <button type="button" *ngIf="showCompany && router.url != '/'" routerLink="/" routerLinkActive="active">Student</button>
+  <div type="button" *ngIf="showDown" (click)="hide()"><span class="material-icons arrow">keyboard_arrow_down</span></div>
+  <div type="button" #up *ngIf="showUp" (click)="unhide()"><span class="material-icons arrow">keyboard_arrow_up</span></div>
+</div>
+<hr>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,72 @@
+* {
+  margin: auto;
+  text-align: center;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+ul {
+  list-style-type: none;
+  width: 25ch;
+  font-size: 32px;
+}
+
+mat-icon {
+  font-size: 32px;
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+li {
+  border-style: solid;
+  margin: 1px;
+}
+
+form {
+  position: fixed;
+  right: 3%;
+  top: 40%;
+  border-style: solid;
+  padding: 20px;
+}
+
+input {
+  font-size: 20px;
+  margin: 5px;
+  text-align: left;
+}
+
+.colored-text {
+  color: maroon;
+}
+
+.sort {
+  font-size: 20px;
+  width: 20%;
+}
+
+.colored {
+  background-color: maroon;
+  color: white;
+}
+
+.item {
+  display:flex;
+}
+
+.text {
+  text-align: left;
+  flex-grow: 1;
+  margin-top: 10px;
+}
+
+.icons {
+  text-align: right;
+  flex-grow: 2;
+}

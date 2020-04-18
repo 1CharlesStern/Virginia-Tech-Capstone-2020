@@ -1,0 +1,11 @@
+<form *ngIf="!submitted">
+  <p class="title">Enter Name</p>
+  <input type="text" id="txtStudentName" class="clickable"><br>
+  <p class="title">Enter or Swipe Student ID</p>
+  <input type="text" id="txtStudentID" class="clickable" (change)="validateNumber()"><br>
+  <input type="submit" class="clickable" (click)="submit($event)" value="Submit">
+</form>
+<div *ngIf="submitted">
+  <p class="notice">{{this.data}} has been notified.  A representative will come to get you soon.  Good luck with your interview!</p>
+  <button type="button" class="clickable" (click)=onNoClick()>Close</button>
+</div>

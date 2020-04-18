@@ -1,0 +1,11 @@
+<div class="sidebar">
+  <button type="button" class="clickable">Change Active Career Fair</button>
+  <button type="button" class="clickable">Add New Career Fair</button>
+  <p>Note: Companies only see interviews from the most recent Career Fair</p>
+  <button type="button" class="danger clickable">Delete Career Fair</button>
+</div>
+
+<button class="clickable switcher" [routerLink]="['masterlist']" *ngIf="router.url == '/admin/stats'">View Company Master List</button>
+<button class="clickable switcher" [routerLink]="['stats']" *ngIf="router.url == '/admin/masterlist'">View Career Fair Statistics</button>
+
+<router-outlet></router-outlet>

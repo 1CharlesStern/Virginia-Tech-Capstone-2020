@@ -1,0 +1,61 @@
+* {
+  margin: auto;
+}
+
+div {
+  text-align: center;
+}
+
+mat-card {
+  text-align: center;
+  vertical-align: middle;
+  height: 100%;
+}
+
+td {
+  padding: 40px;
+  width: 33%;
+  height: 33%;
+}
+
+table {
+  height: 80%;
+  width: 80%;
+  border-spacing: 5px;
+  border-collapse: seperate;
+  table-layout: fixed;
+}
+
+.pager {
+  height: 50px;
+  width: 50px;
+  margin: 1px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.arrow {
+  margin: 10px;
+}
+
+.clickable {
+  min-height: 64px;
+  min-width: 200px;
+  font-size: 32px;
+}
+
+.title {
+  font-size: 32px;
+  min-height: 40px;
+}
+
+.close {
+  position: absolute;
+  right: 0px;
+}
+
+.notice {
+  font-size: 24px;
+  line-height: 24px;
+  padding: 20px;
+}
