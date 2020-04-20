@@ -11,12 +11,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MasterlistComponent } from './admin/masterlist/masterlist.component';
+import { TruncatePipe } from './truncate.pipe';
+
+import { StatsComponent } from './admin/stats/stats.component';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/moment';
 import * as moment from 'moment';
-import { MasterlistComponent } from './admin/masterlist/masterlist.component';
-import { StatsComponent } from './admin/stats/stats.component';
-import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
 
 
 export function momentAdapterFactory() {
@@ -32,7 +34,8 @@ export function momentAdapterFactory() {
     LoginComponent,
     MasterlistComponent,
     StatsComponent,
-    StudentComponentDialog
+    StudentComponentDialog,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,

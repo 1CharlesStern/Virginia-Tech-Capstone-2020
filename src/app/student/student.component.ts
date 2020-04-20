@@ -9,7 +9,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class StudentComponent implements OnInit {
 
   companies = ["Northrop Grumman", "Apple", "Google", "Anthem",
-  "Cisco", "General Electric", "ASUS", "Tencent", "Microsoft", "Acer"];
+  "Cisco", "General Electric", "ASUS", "Tencent", "Microsoft", "Acer", "National Aeronautics and Space Administration"];
   curPage = 0;
 
   constructor(public dialog: MatDialog) {
