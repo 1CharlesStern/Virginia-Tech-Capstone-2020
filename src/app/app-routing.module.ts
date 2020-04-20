@@ -17,6 +17,7 @@ const routes: Routes = [
     ]},
   {path: '', component:StudentComponent},
   {path: 'company', component:CompanyComponent},
+  {path: 'company/:id', component:CompanyComponent},
   {path: 'login', component:LoginComponent}];
 
 @NgModule({

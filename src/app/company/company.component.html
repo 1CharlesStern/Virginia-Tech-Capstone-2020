@@ -1,26 +1,33 @@
-<div *ngIf="!data[0]" class="primary">
-  <h2>No Recent Interviews</h2>
+<div *ngIf="!id" class="container">
+  <p class="primary">Enter Company ID</p>
+  <input type="text" class="clickable" id="companyInput"><br>
+  <input type="submit" value="Submit" class="clickable" (click)="navigateToCompany()">
 </div>
+<div *ngIf="id">
+  <div *ngIf="!data[0]" class="primary">
+    <h2>No Recent Interviews</h2>
+  </div>
 
-<div *ngIf="data[0]" class="container">
-  <h2 class="primary">Latest Sign-In: {{data[0].name}} {{formatDate(data[0].time)}}</h2>
-  <h4 class="secondary">All Sign-ins:</h4>
-  <cdk-virtual-scroll-viewport itemSize="30" class="viewport secondary">
-    <div *cdkVirtualFor="let person of data" class="item">{{person.name}} {{formatDate(person.time)}}</div>
-  </cdk-virtual-scroll-viewport>
+  <div *ngIf="data[0]" class="container">
+    <h2 class="primary">Latest Sign-In: {{data[0].name}} {{data[0].time | date: dateFormat}}</h2>
+    <h4 class="secondary">All Sign-ins:</h4>
+    <cdk-virtual-scroll-viewport itemSize="30" class="viewport secondary">
+      <div *cdkVirtualFor="let person of data" class="item">{{person.name}} {{person.time | date: dateFormat}}</div>
+    </cdk-virtual-scroll-viewport>
+  </div>
+
+  <div class="widget">
+    <button mwlCalendarPreviousView [(viewDate)]="viewDate" [view]="view">Previous</button>
+    <button mwlCalendarToday [(viewDate)]="viewDate">Today</button>
+    <button mwlCalendarNextView [(viewDate)]="viewDate" [view]="view">Next</button>
+  </div>
+
+  <h2 class="widget">{{viewDate | date: 'fullDate'}}</h2>
+
+  <mwl-calendar-day-view
+    [viewDate]="viewDate"
+    [events]="events"
+    [dayStartHour]="CALENDAR_HOUR_START"
+    [dayEndHour]="CALENDAR_HOUR_END">
+  </mwl-calendar-day-view>
 </div>
-
-<div class="widget">
-  <button mwlCalendarPreviousView [(viewDate)]="viewDate" [view]="view">Previous</button>
-  <button mwlCalendarToday [(viewDate)]="viewDate">Today</button>
-  <button mwlCalendarNextView [(viewDate)]="viewDate" [view]="view">Next</button>
-</div>
-
-<h2 class="widget">{{viewDate.toDateString()}}</h2>
-
-<mwl-calendar-day-view
-  [viewDate]="viewDate"
-  [events]="events"
-  [dayStartHour]="CALENDAR_HOUR_START"
-  [dayEndHour]="CALENDAR_HOUR_END">
-</mwl-calendar-day-view>
