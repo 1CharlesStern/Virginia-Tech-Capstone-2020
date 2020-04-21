@@ -1,3 +1,22 @@
+<div class="sidebar">
+  <form class="container">
+    <h1>Add New Career Fair</h1>
+    <h3>Career Fair Name:</h3>
+    <input type="text" name="name"><br>
+    <input type="submit" value="Submit">
+  </form>
+  <div class="container">
+    <h1>Change Active Career Fair</h1>
+    <select>
+      <option class="button container" *ngFor="let fair of careerFairs" (click)="changeFair(fair)">
+        <p *ngIf="fair != selectedFair">{{fair}}</p>
+        <p *ngIf="fair == selectedFair">{{fair}} -- Active Now</p>
+      </option>
+    </select>
+    <p>Note: Companies only see interviews from the most recent Career Fair</p>
+  </div>
+  <button type="button" class="danger clickable">Delete Career Fair</button>
+</div>
 <div id="upfront">
   <div class="section">
     <h1>{{numStudents}}</h1>
@@ -15,34 +34,39 @@
 <table>
   <th>
     Student Name
-    <div type="button" class="active" #studentDown (click)="sort(1, true)">
-      <span class="material-icons">keyboard_arrow_down</span>
+    <div class="active" #studentDown (click)="sort(1, true)">
+      <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
-    <div type="button" #studentUp hidden (click)="sort(1, false)">
-      <span class="material-icons">keyboard_arrow_up</span>
+    <div #studentUp hidden (click)="sort(1, false)">
+      <mat-icon>keyboard_arrow_up</mat-icon>
     </div>
   </th>
   <th>
     Company Name
-    <div type="button" class="inactive" #companyDown (click)="sort(2, true)">
-      <span class="material-icons">keyboard_arrow_down</span>
+    <div class="inactive" #companyDown (click)="sort(2, true)">
+      <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
-    <div type="button" #companyUp hidden (click)="sort(2, false)">
-      <span class="material-icons">keyboard_arrow_up</span>
+    <div #companyUp hidden (click)="sort(2, false)">
+      <mat-icon>keyboard_arrow_up</mat-icon>
     </div>
   </th>
   <th>
     Interview Time
-    <div type="button" class="inactive" #timeDown (click)="sort(3, true)">
-      <span class="material-icons">keyboard_arrow_down</span>
+    <div class="inactive" #timeDown (click)="sort(3, true)">
+      <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
-    <div type="button" #timeUp hidden (click)="sort(3, false)">
-      <span class="material-icons">keyboard_arrow_up</span>
+    <div #timeUp hidden (click)="sort(3, false)">
+      <mat-icon>keyboard_arrow_up</mat-icon>
     </div>
   </th>
-  <tr *ngFor="let interview of data">
+  <tr *ngFor="let interview of data.slice(curPage, curPage+PAGE_SIZE)">
     <td class="limited">{{interview.name}}</td>
     <td class="limited">{{interview.company}}</td>
-    <td class="limited">{{formatDate(interview.time)}}</td>
+    <td class="limited">{{interview.time | date:dateFormat}}</td>
   </tr>
 </table>
+<div class="pagerbox">
+  <button type="button" class="arrow pager" (click)="paginate(curPage-1)"><mat-icon>arrow_back</mat-icon></button>
+  <button type="button" class="pager" *ngFor="let page of pages(); index as i" (click)="paginate(i)">{{ i+1 }}</button>
+  <button type="button" class="arrow pager" (click)="paginate(curPage+1)"><mat-icon>arrow_forward</mat-icon></button>
+</div>

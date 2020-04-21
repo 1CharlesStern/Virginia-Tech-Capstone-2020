@@ -11,23 +11,15 @@ export class AdminComponent implements OnInit, CanActivate {
 
   constructor(public router: Router) { }
 
+  ngOnInit(): void {
+  }
+
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     //TODO check authentication
     return true
   }
 
-  ngOnInit(): void {
-  }
-
-  dropCompany(): void {
-    //TODO
-  }
-
   changePassword(): void {
-    //TODO
-  }
-
-  addCompany(): void {
     //TODO
   }
 

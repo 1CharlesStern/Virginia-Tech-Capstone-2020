@@ -11,6 +11,12 @@ export class StatsComponent implements OnInit {
   numInterviews = 300
   numCompanies = 50
 
+  dateFormat = 'MMM d, y, h:mm a'
+
+  curPage = 0
+
+  PAGE_SIZE = 10
+
   //Should match width of "limited" class in stylesheet
   MAX_CHARS = 25
 
@@ -29,22 +35,18 @@ export class StatsComponent implements OnInit {
     {name: "Stevie Wonder", company: "General Electric", time: new Date("March 29 2020 2:00 PM")}
   ]
 
+  selectedFair = "Fall 2020"
+
+  careerFairs = [
+    "Fall 2020",
+    "Spring 2020",
+    "Fall 2019",
+    "Spring 2019"
+  ]
+
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  formatDate(date: Date){
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    var minuteString = minutes < 10 ? '0'+minutes.toString() : minutes.toString();
-    var strTime = hours + ':' + minuteString + ' ' + ampm;
-    var readableDate = date.toDateString()
-    readableDate = readableDate.substring(0, readableDate.length-4)
-    return readableDate+" "+strTime;
   }
 
   sort(index: Number, isAscending: Boolean){
@@ -68,6 +70,26 @@ export class StatsComponent implements OnInit {
     this.companyUp.nativeElement.className = companyEnable ? "active" : "inactive"
     this.timeDown.nativeElement.className = timeEnable ? "active" : "inactive"
     this.timeUp.nativeElement.className = timeEnable ? "active" : "inactive"
+  }
+
+  paginate(page: number): void{
+    if (page < 0){
+      page = 0
+    }
+    if (page > (this.data.length/9)-1){
+      page = (this.data.length/9)-1
+    }
+    this.curPage = page
+  }
+
+  pages() {
+    let result = this.data.length / this.PAGE_SIZE
+    result = Math.floor(result)+1
+    return Array(result);
+  }
+
+  changeFair(choice: string){
+    this.selectedFair = choice
   }
 
 }
