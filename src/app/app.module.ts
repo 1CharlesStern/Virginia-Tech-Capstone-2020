@@ -7,15 +7,17 @@ import { AdminComponent } from './admin/admin.component';
 import { StudentComponent, StudentComponentDialog } from './student/student.component';
 import { CompanyComponent } from './company/company.component';
 import { LoginComponent } from './login/login.component';
+import { MasterlistComponent } from './admin/masterlist/masterlist.component';
+import { TruncatePipe } from './truncate.pipe';
+import { StatsComponent } from './admin/stats/stats.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MasterlistComponent } from './admin/masterlist/masterlist.component';
-import { TruncatePipe } from './truncate.pipe';
-
-import { StatsComponent } from './admin/stats/stats.component';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/moment';
 import * as moment from 'moment';
@@ -45,7 +47,8 @@ export function momentAdapterFactory() {
     MatIconModule,
     ScrollingModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: momentAdapterFactory }),
-    MatDialogModule
+    MatDialogModule,
+    MatMenuModule
   ],
   providers: [
     {

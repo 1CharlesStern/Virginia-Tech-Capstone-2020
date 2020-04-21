@@ -19,13 +19,14 @@ export class CompanyComponent implements OnInit {
 
   data = []
 
-  events = this.populateEvents(this.data)
+  events = []
 
   CALENDAR_HOUR_START = 7
   CALENDAR_HOUR_END = 20
 
   ngOnInit(): void {
     this.id = this.getInterviews(this.route.snapshot.paramMap.get('id'))
+    this.events = this.populateEvents(this.data)
   }
 
   constructor(private route: ActivatedRoute, private router: Router) { }

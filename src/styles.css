@@ -8,6 +8,11 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+button, mat-icon {
+  cursor: pointer;
+}
+
 .mat-dialog-container {
   margin: auto;
   text-align: center;
@@ -17,4 +22,18 @@ body {
   min-height: 64px;
   min-width: 200px;
   font-size: 32px;
+}
+
+.pager {
+  height: 50px;
+  width: 50px;
+  margin: 1px;
+  cursor: pointer;
+  font-size: 32px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.arrow {
+  margin: 10px;
 }
