@@ -6,7 +6,7 @@
     <h1>Add New Company</h1>
     <h3>Company Name:</h3>
     <input type="text" #name><br>
-    <input type="submit" value="Submit" (click)="addComp(name.value)">
+    <input type="submit" value="Submit" (click)="addCompany(name.value)">
   </div>
 </div>
 <div class="content">
@@ -16,12 +16,12 @@
       <mat-icon #down *ngIf="ascendingSort" (click)="ascendingSort = false">keyboard_arrow_down</mat-icon>
       <mat-icon #up *ngIf="!ascendingSort" (click)="ascendingSort = true">keyboard_arrow_up</mat-icon>
     </div>
-    <li *ngFor="let company of data.slice(curPage, curPage+PAGE_SIZE)">
+    <li *ngFor="let company of data.slice(curPage, curPage+PAGE_SIZE); index as i">
       <div class="item">
         <p class="text">{{company.name}}</p>
         <div class="icons">
-          <mat-icon>create</mat-icon>
-          <mat-icon>delete</mat-icon>
+          <!--mat-icon>create</mat-icon-->
+          <mat-icon (click)=dropCompany(i.toString())>delete</mat-icon>
         </div>
       </div>
     </li>
