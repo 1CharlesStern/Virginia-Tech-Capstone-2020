@@ -2,12 +2,12 @@
   <h1>Company Master List</h1>
 </div>
 <div class="sidebar">
-  <form class="container">
+  <div class="container">
     <h1>Add New Company</h1>
     <h3>Company Name:</h3>
-    <input type="text" name="name"><br>
-    <input type="submit" value="Submit">
-  </form>
+    <input type="text" #name><br>
+    <input type="submit" value="Submit" (click)="addComp(name.value)">
+  </div>
 </div>
 <div class="content">
   <ul>
