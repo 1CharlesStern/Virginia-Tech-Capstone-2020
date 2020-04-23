@@ -13,13 +13,13 @@ export class AdminService {
 
   constructor(private http: HttpClient) { }
 
-  API_URL = '*'
   API_COMPANY = 'http://localhost:8080/api/companies'
   COMPANY_URL_BASE = 'http://localhost:4200/company/'
 
   options = {
     headers: new HttpHeaders({
-      'Access-Control-Allow-Origin':  '*'
+      'Access-Control-Allow-Origin':  '*',
+      'Content-Type': 'application/json'
     })
   }
 
@@ -29,7 +29,7 @@ export class AdminService {
   }
 
   getCompaniesHTTP(): Observable<any> {
-    return this.http.get(this.API_COMPANY, this.options)
+    return this.http.get(this.API_COMPANY)
   }
 
   addCompanyHTTP(name: string): Observable<any> {

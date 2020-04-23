@@ -48,7 +48,7 @@ export class MasterlistComponent implements OnInit {
 
   getCompanies(): void {
     this.service.getCompaniesHTTP().subscribe(
-      result => this.data = result._embedded.companies
+      result => this.data = result
     )
   }
 
