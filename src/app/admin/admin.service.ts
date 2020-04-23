@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
 
-  public helper: JwtHelperService = new JwtHelperService();
+  constructor(private http: HttpClient, private router: Router) { }
 
-  constructor(private http: HttpClient) { }
-
+  API_AUTH = 'https://localhost:8080/api/users'
   API_COMPANY = 'http://localhost:8080/api/companies'
   COMPANY_URL_BASE = 'http://localhost:4200/company/'
 
@@ -25,7 +24,8 @@ export class AdminService {
 
   checkToken(){
     let token = localStorage.getItem('token')
-    return !this.helper.isTokenExpired(token);
+    //TODO check token expiration date
+    return this.router.parseUrl('/login')
   }
 
   getCompaniesHTTP(): Observable<any> {
@@ -42,5 +42,12 @@ export class AdminService {
 
   dropCompanyHTTP(id: string): Observable<any>{
     return this.http.delete(this.API_COMPANY+'/'+id, this.options)
+  }
+
+  submitLogin(hash: string): Observable<any>{
+    let login = {}
+    login['username'] = 'admin';
+    login['password'] = hash
+    return this.http.post(this.API_AUTH, login, this.options)
   }
 }

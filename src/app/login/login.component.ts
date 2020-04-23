@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { sha256 } from 'js-sha256';
+import { Router } from '@angular/router';
+import { AdminService } from '../admin/admin.service';
 
 @Component({
   selector: 'app-login',
@@ -8,21 +10,27 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: AdminService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  //Requires "username", "password" JSON object
-  AUTH_API = 'http://localhost:8080/api/users'
-
-  checkAuth(pwd: string){
-    //TODO http post to auth backend
-    let todo = true
-    let token = "todo"
-    if (todo){
-      localStorage.setItem('token', token)
-    }
+  checkAuth(pwd: any){
+    this.service.submitLogin(sha256(pwd.value)).subscribe(
+      data => {
+        if (data){
+          localStorage.set('token', data)
+          //TODO token expiration
+          this.router.navigate(['/admin'])
+        }
+        else {
+          this.router.navigate([''])
+        }
+      },
+      error => {
+        this.router.navigate([''])
+      }
+    )
   }
 
 }
