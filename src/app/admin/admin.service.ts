@@ -28,11 +28,11 @@ export class AdminService {
     return !this.helper.isTokenExpired(token);
   }
 
-  getCompaniesHTTP(): Observable<Object> {
+  getCompaniesHTTP(): Observable<any> {
     return this.http.get(this.API_COMPANY, this.options)
   }
 
-  addCompanyHTTP(name: string): Observable<Object> {
+  addCompanyHTTP(name: string): Observable<any> {
     let company = {}
     company['name'] = name
     //Generates a random company code of length 5
@@ -40,7 +40,7 @@ export class AdminService {
     return this.http.post(this.API_COMPANY, JSON.stringify(company), this.options)
   }
 
-  dropCompanyHTTP(id: string){
+  dropCompanyHTTP(id: string): Observable<any>{
     return this.http.delete(this.API_COMPANY+'/'+id, this.options)
   }
 }

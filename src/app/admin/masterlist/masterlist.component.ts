@@ -22,12 +22,12 @@ export class MasterlistComponent implements OnInit {
   curPage = 0;
 
   data = [
-    {name: "General Electric", inFair: true},
-    {name: "Toshiba", inFair: true},
-    {name: "Cisco", inFair: true},
-    {name: "Google", inFair: true},
-    {name: "Facebook", inFair: true},
-    {name: "Amazon", inFair: true},
+    {name: "General Electric", url: ""},
+    {name: "Toshiba", url: ""},
+    {name: "Cisco", url: ""},
+    {name: "Google", url: ""},
+    {name: "Facebook", url: ""},
+    {name: "Amazon", url: ""},
   ]
 
   paginate(page: number): void{
@@ -47,17 +47,18 @@ export class MasterlistComponent implements OnInit {
   }
 
   getCompanies(): void {
-    this.service.getCompaniesHTTP().subscribe(data =>
-      console.log(data))
+    this.service.getCompaniesHTTP().subscribe(
+      result => this.data = result._embedded.companies
+    )
   }
 
   dropCompany(id: string): void {
     if (confirm("Are you sure?")){
-      this.service.dropCompanyHTTP(id).subscribe(data => console.log(data))
+      this.service.dropCompanyHTTP(id).subscribe(_ => this.getCompanies())
     }
   }
 
   addCompany(name: string) {
-    this.service.addCompanyHTTP(name).subscribe(data => console.log(data))
+    this.service.addCompanyHTTP(name).subscribe(_ => this.getCompanies())
   }
 }
