@@ -65,7 +65,7 @@ export class StatsComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   getCompanies(): void {
-    this.http.get<Company[]>("http://localhost:8080/api/companies.json") // testing
+    this.http.get<Company[]>("http://localhost:8080/api/companies") // testing
       //.map(data => _.values(data))                                            //
       .subscribe(data => {                                                    //
 
@@ -74,7 +74,7 @@ export class StatsComponent implements OnInit {
   }
 
   getCareerFairs(): void {
-    this.http.get<CareerFair[]>("http://localhost:8080/api/careerfairs.json") // testing
+    this.http.get<CareerFair[]>("http://localhost:8080/api/careerfairs") // testing
       //.map(data => _.values(data))                                            //
       .subscribe(data => {                                                    //
 
@@ -85,7 +85,7 @@ export class StatsComponent implements OnInit {
   }
 
   getInterviews(): void {
-    this.http.get<Interview[]>("http://localhost:8080/api/interviews.json") // testing
+    this.http.get<Interview[]>("http://localhost:8080/api/interviews") // testing
       //.map(data => _.values(data))                                            //
       .subscribe(data => {
 
@@ -117,6 +117,8 @@ export class StatsComponent implements OnInit {
 
   deleteFair(): void {
     this.http.delete("http://localhost:8080/api/careerfairs.json"+this.selectedFair) //testing
+    this.careerFairs.splice(this.careerFairs.indexOf(this.selectedFair), 1);
+    this.ngOnInit();
   }
 
   ngOnInit(): void {
@@ -168,6 +170,9 @@ export class StatsComponent implements OnInit {
 
   changeFair(choice: string){
     this.selectedFair = choice
+    this.cfid = this.careerFairs.indexOf(choice) + 1;
+
+    this.getInterviews();
   }
 
 }
