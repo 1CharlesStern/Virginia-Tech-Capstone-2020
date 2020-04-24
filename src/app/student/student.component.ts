@@ -1,5 +1,35 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';  //
+import {Observable} from "rxjs/Observable";         //
+import * as _ from 'lodash';                        //
+import 'rxjs/add/operator/map';                     //
+
+interface Company { //
+  id: number,       //
+  name: string,     //
+  url: string       //
+}                   //
+
+interface CareerFair {        //
+  id: number,                 //
+  name: string,               //
+  numberOfCompanies: number,  //
+  numberOfStudents: number,   //
+  numberOfInterviews: number  //
+}                             //
+
+interface Interview {       //
+  id: string,               //
+  studentIDNumber: number,  //
+  studentName: string,      //
+  companyID: number,        //
+  date: string,             //
+  time: string,             //
+  careerFairID: number      //
+}                           //
+
+let compObjs = []; //
 
 @Component({
   selector: 'app-student',
@@ -8,15 +38,29 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class StudentComponent implements OnInit {
 
-  companies = ["Northrop Grumman", "Apple", "Google", "Anthem",
-  "Cisco", "General Electric", "ASUS", "Tencent", "Microsoft", "Acer", "National Aeronautics and Space Administration"];
+
+  companies: string[] = []; //
+  // companies = ["Northrop Grumman", "Apple", "Google", "Anthem",
+  // "Cisco", "General Electric", "ASUS", "Tencent", "Microsoft", "Acer",
+  // "National Aeronautics and Space Administration"];
   curPage = 0;
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private http: HttpClient) { //
 
   }
 
   ngOnInit(): void {
+    this.http.get<Company[]>("http://localhost:4200/assets/companies.json") // testing
+    //this.http.get<Company[]>("http://localhost:8080/api/companies")           // actual
+      .map(data => _.values(data))                                            //
+      .subscribe(data => {                                                    //
+        compObjs = data;                                                 //
+
+        this.companies = compObjs.map(a => a.name);                      //
+
+        //console.log(data);                                                  //
+        //console.log(this.companies);                                        //
+    });;                                                                      //
   }
 
   openDialog(company: String): void {
@@ -33,7 +77,7 @@ export class StudentComponent implements OnInit {
   pages(): any {
     while (this.companies.length % 9 != 0){
       //Fill empty slots so that the table looks the same
-      this.companies.push("")
+      this.companies.push("");
     }
     return Array(this.companies.length/9)
   }
@@ -56,12 +100,28 @@ export class StudentComponent implements OnInit {
 })
 export class StudentComponentDialog {
 
-  submitted = false
+
+
+  submitted = false;
+  cfid: number;     //
 
   constructor(public dialogRef: MatDialogRef<StudentComponentDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: string) {}
+    @Inject(MAT_DIALOG_DATA) public data: string, private http: HttpClient) {}
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  ngOnInit(): void {
+    // Get careerfair table, get max id value from Array
+    this.http.get<CareerFair[]>("http://localhost:4200/assets/careerfairs.json")
+    //this.http.get<CareerFair[]>("http://localhost:8080/api/careerfairs")            // actual
+      .map(data => _.values(data))                                                  //
+      .subscribe(data => {                                                          //
+        this.cfid = Math.max.apply(Math, data.map(a => a.id));                      //
+
+        console.log("GET interviews");
+        console.log(data);                                                        //
+    });;
   }
 
   validateNumber() {
@@ -82,9 +142,28 @@ export class StudentComponentDialog {
       alert('The value you have entered is invalid.');
       return;
     }
+
     var id = (<HTMLInputElement>document.getElementById("txtStudentID")).value;
     var company = this.data
-    //TODO
+
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+    let newinterview = {        //
+      studentIDNumber: id,  //
+      studentName: (<HTMLInputElement>document.getElementById("txtStudentName")).value,      //
+      companyID: compObjs.find(o => o.name === company).id,        //
+      date: date,             //
+      time: time,             //
+      careerFairID: this.cfid      //
+    }                           //
+
+    this.http.post('http://localhost:4200/assets/interviews.json', newinterview); // testing
+    //this.http.post("http://localhost:8080/api/interviews", newinterview);           // actual
+
+    console.log(newinterview);
+
     this.submitted = true
   }
 }

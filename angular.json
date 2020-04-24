@@ -21,7 +21,11 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              { "glob": "package.json", "input": "../", "output": "./assets/" },
+              { "glob": "careerfairs.json", "input": "./", "output": "./assets/" },
+              { "glob": "companies.json", "input": "./", "output": "./assets/" },
+              { "glob": "interviews.json", "input": "./", "output": "./assets/" }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

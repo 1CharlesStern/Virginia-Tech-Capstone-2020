@@ -1,0 +1,34 @@
+[
+  {
+    "studentIDNumber": 907999999,
+    "studentName": "Dude",
+    "companyID": 1,
+    "date": "2020-11-31",
+    "time": "09:41:00",
+    "careerFairID": 3
+  },
+  {
+    "studentIDNumber": 999999999,
+    "studentName": "John Brown",
+    "companyID": 2,
+    "date": "2020-11-31",
+    "time": "09:41:00",
+    "careerFairID": 3
+  },
+  {
+    "studentIDNumber": 907000000,
+    "studentName": "Woody",
+    "companyID": 1,
+    "date": "2020-11-31",
+    "time": "09:41:00",
+    "careerFairID": 4
+  },
+  {
+    "studentIDNumber": 907779977,
+    "studentName": "Bob",
+    "companyID": 1,
+    "date": "2020-11-31",
+    "time": "09:41:00",
+    "careerFairID": 4
+  }
+]
