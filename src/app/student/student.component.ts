@@ -48,8 +48,8 @@ export class StudentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<Company[]>("http://localhost:4200/assets/companies.json") // testing
-    //this.http.get<Company[]>("http://localhost:8080/api/companies")           // actual
+    //this.http.get<Company[]>("http://localhost:4200/assets/companies.json") // testing
+    this.http.get<Company[]>("http://localhost:8080/api/companies")           // actual
       //.map(data => _.values(data))                                            //
       .subscribe(data => {                                                    //
         compObjs = data;                                                 //
@@ -111,8 +111,8 @@ export class StudentComponentDialog {
 
   ngOnInit(): void {
     // Get careerfair table, get max id value from Array
-    this.http.get<CareerFair[]>("http://localhost:4200/assets/careerfairs.json")
-    //this.http.get<CareerFair[]>("http://localhost:8080/api/careerfairs")          // actual
+    //this.http.get<CareerFair[]>("http://localhost:4200/assets/careerfairs.json") // testing
+    this.http.get<CareerFair[]>("http://localhost:8080/api/careerfairs")          // actual
       .subscribe(data => {                                                          //
         this.cfid = Math.max.apply(Math, data.map(a => a.id));                      //
 
@@ -156,8 +156,8 @@ export class StudentComponentDialog {
       careerFairID: this.cfid      //
     }                           //
 
-    this.http.post('http://localhost:4200/assets/interviews.json', newinterview); // testing
-    //this.http.post("http://localhost:8080/api/interviews", newinterview);           // actual
+    //this.http.post('http://localhost:4200/assets/interviews.json', newinterview); // testing
+    this.http.post("http://localhost:8080/api/interviews", newinterview);           // actual
 
     console.log(newinterview);
 

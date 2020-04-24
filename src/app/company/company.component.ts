@@ -53,14 +53,6 @@ export class CompanyComponent implements OnInit {
   }
 
   getInterviews(id: String){
-    // I am not entirely sure this works. I could not test via the client. - Andrew
-    // NOTE UNTESTED CODE: PROBABLY DOESN'T WORK BUT THE UNDERLYING LOGIC SHOULD BE CORRECT
-
-    //TODO confirm "id" points to a valid Company
-    //If "id" is invalid return null
-
-    //TODO fetch the interviews for the company with ID = "id"
-
     this.http.get('http://localhost:8080/api/interviews').subscribe(result => {
       var lastWeekInterviews = (<any[]>result).filter(function (interview) {
         //gets the date from the interview.
