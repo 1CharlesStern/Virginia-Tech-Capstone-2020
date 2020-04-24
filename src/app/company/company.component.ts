@@ -52,17 +52,45 @@ export class CompanyComponent implements OnInit {
   }
 
   getInterviews(id: String){
+    // I am not entirely sure this works. I could not test via the client. - Andrew
+    // NOTE UNTESTED CODE: PROBABLY DOESN'T WORK BUT THE UNDERLYING LOGIC SHOULD BE CORRECT
+
     //TODO confirm "id" points to a valid Company
     //If "id" is invalid return null
 
     //TODO fetch the interviews for the company with ID = "id"
-    this.data = [
-      {name: "Bob Jones", time: new Date("March 30 2020 1:41 PM")},
-      {name: "Mary Phillips", time: new Date("March 30 2020 1:35 PM")},
-      {name: "Joe Rogan", time: new Date("March 30 2020 1:00 PM")},
-      {name: "Jeff Bezos", time: new Date("March 30 2020 11:55 AM")},
-      {name: "Stevie Wonder", time: new Date("March 29 2020 2:00 PM")}
-    ]
+    
+    var preJsonData = $http.get(http://localhost:8080/api/interviews)
+    var jsonData = JSON.parse(preJsonData)
+    
+    
+    var lastWeekInterviews = jsonData.filter(function (interview) {
+    //gets the date from the interview.
+    var range = new Date(interview.date);
+    
+    var temp = new Date();
+    var today = temp.getFullYear()+'-'+(temp.getMonth()+1)+'-'+temp.getDate();
+    var lastweek = new Date();
+    var lastweek = lastweek.setDate(today.getDate()-7);
+    
+    // returns the json objects that are within the last seven days.
+    return ( range>= lastweek && range <= today);
+});
+    // prunes the list.
+    var prunedData = prunedData.map(o => {
+      let obj = Object.assign({}, o);
+      delete obj.StudentIDNumber;
+      delete obj.companyID
+      delete obj.careerfairID
+      return obj;
+    });
+    
+    // since the data is stored in two date time formats in the json object.
+    // I am not really sure how your widget works. The json objects in the code above SHOULD
+    // have an object with the studentName, a date key in yyyy-mm--dd format, and a time key.
+    // example: [{studentName: "bob", Date:"1999-11-11", time: "00:00:00"}]
+    
+    this.data = prunedData
     return id
   }
 
