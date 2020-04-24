@@ -48,7 +48,7 @@ export class CompanyComponent implements OnInit {
   navigateToCompany(){
     let obj = (<HTMLInputElement>document.getElementById("companyInput")).value;
     if (obj){
-      this.router.navigate([obj], {relativeTo: this.route});
+      this.router.navigate(['/company/'+obj]);
     }
   }
 
