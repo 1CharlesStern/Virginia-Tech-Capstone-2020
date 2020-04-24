@@ -1,7 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';  //
-import {Observable} from "rxjs/Observable";         //
-import * as _ from 'lodash';
 
 interface Company { //
   id: number,       //
@@ -68,7 +66,7 @@ export class StatsComponent implements OnInit {
 
   getCompanies(): void {
     this.http.get<Company[]>("http://localhost:8080/api/companies.json") // testing
-      .map(data => _.values(data))                                            //
+      //.map(data => _.values(data))                                            //
       .subscribe(data => {                                                    //
 
         this.compObjs = data;
@@ -77,18 +75,18 @@ export class StatsComponent implements OnInit {
 
   getCareerFairs(): void {
     this.http.get<CareerFair[]>("http://localhost:8080/api/careerfairs.json") // testing
-      .map(data => _.values(data))                                            //
+      //.map(data => _.values(data))                                            //
       .subscribe(data => {                                                    //
 
         this.cfid = Math.max.apply(Math, data.map(a => a.id));                                         //
-        this.selectedFair = data.find(o => o.id === this.cfid).name;
+        this.selectedFair = data.find(o => o.id === this.cfid).id.toString();
         this.careerFairs = data.map(a => a.name);
     });;
   }
 
   getInterviews(): void {
     this.http.get<Interview[]>("http://localhost:8080/api/interviews.json") // testing
-      .map(data => _.values(data))                                            //
+      //.map(data => _.values(data))                                            //
       .subscribe(data => {
 
         this.numStudents = 0;
@@ -115,6 +113,10 @@ export class StatsComponent implements OnInit {
 
         this.numInterviews = this.data.length                                   //
     });;
+  }
+
+  deleteFair(): void {
+    this.http.delete("http://localhost:8080/api/careerfairs.json"+this.selectedFair) //testing
   }
 
   ngOnInit(): void {
