@@ -1,9 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';  //
-import {Observable} from "rxjs/Observable";         //
-import * as _ from 'lodash';                        //
-import 'rxjs/add/operator/map';                     //
+import { Observable } from "rxjs";         //
 
 interface Company { //
   id: number,       //
@@ -52,7 +50,7 @@ export class StudentComponent implements OnInit {
   ngOnInit(): void {
     this.http.get<Company[]>("http://localhost:4200/assets/companies.json") // testing
     //this.http.get<Company[]>("http://localhost:8080/api/companies")           // actual
-      .map(data => _.values(data))                                            //
+      //.map(data => _.values(data))                                            //
       .subscribe(data => {                                                    //
         compObjs = data;                                                 //
 
@@ -114,8 +112,7 @@ export class StudentComponentDialog {
   ngOnInit(): void {
     // Get careerfair table, get max id value from Array
     this.http.get<CareerFair[]>("http://localhost:4200/assets/careerfairs.json")
-    //this.http.get<CareerFair[]>("http://localhost:8080/api/careerfairs")            // actual
-      .map(data => _.values(data))                                                  //
+    //this.http.get<CareerFair[]>("http://localhost:8080/api/careerfairs")          // actual
       .subscribe(data => {                                                          //
         this.cfid = Math.max.apply(Math, data.map(a => a.id));                      //
 

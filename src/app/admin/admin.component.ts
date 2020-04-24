@@ -23,8 +23,4 @@ export class AdminComponent implements OnInit, CanActivate, CanActivateChild {
     return this.canActivate(route, state)
   }
 
-  changePassword(): void {
-    //TODO
-  }
-
 }
