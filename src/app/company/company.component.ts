@@ -25,6 +25,8 @@ export class CompanyComponent implements OnInit {
   CALENDAR_HOUR_START = 7
   CALENDAR_HOUR_END = 20
 
+  API_URL = "http://epsilon.cs.vt.edu:8080/"
+
   ngOnInit(): void {
     this.id = this.getInterviews(this.route.snapshot.paramMap.get('id'))
     this.events = this.populateEvents(this.data)
@@ -53,7 +55,7 @@ export class CompanyComponent implements OnInit {
   }
 
   getInterviews(id: String){
-    this.http.get('http://localhost:8080/api/interviews').subscribe(result => {
+    this.http.get(this.API_URL+'interviews').subscribe(result => {
       var lastWeekInterviews = (<any[]>result).filter(function (interview) {
         //gets the date from the interview.
         var range = new Date(interview.date);

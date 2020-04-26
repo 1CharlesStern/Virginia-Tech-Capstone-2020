@@ -62,10 +62,12 @@ export class StatsComponent implements OnInit {
 
   compObjs = [];
 
+  API_URL = "http://epsilon.cs.vt.edu:8080/"
+
   constructor(private http: HttpClient) { }
 
   getCompanies(): void {
-    this.http.get<Company[]>("http://localhost:8080/api/companies") // testing
+    this.http.get<Company[]>(this.API_URL+"companies") // testing
       //.map(data => _.values(data))                                            //
       .subscribe(data => {                                                    //
 
@@ -74,7 +76,7 @@ export class StatsComponent implements OnInit {
   }
 
   getCareerFairs(): void {
-    this.http.get<CareerFair[]>("http://localhost:8080/api/careerfairs") // testing
+    this.http.get<CareerFair[]>(this.API_URL+"careerfairs") // testing
       //.map(data => _.values(data))                                            //
       .subscribe(data => {                                                    //
 
@@ -85,7 +87,7 @@ export class StatsComponent implements OnInit {
   }
 
   getInterviews(): void {
-    this.http.get<Interview[]>("http://localhost:8080/api/interviews") // testing
+    this.http.get<Interview[]>(this.API_URL+"interviews") // testing
       //.map(data => _.values(data))                                            //
       .subscribe(data => {
 
@@ -116,7 +118,7 @@ export class StatsComponent implements OnInit {
   }
 
   deleteFair(): void {
-    this.http.delete("http://localhost:8080/api/careerfairs.json"+this.selectedFair) //testing
+    this.http.delete(this.API_URL+"careerfairs/"+this.selectedFair) //testing
     this.careerFairs.splice(this.careerFairs.indexOf(this.selectedFair), 1);
     this.ngOnInit();
   }

@@ -42,6 +42,7 @@ export class StudentComponent implements OnInit {
   // "Cisco", "General Electric", "ASUS", "Tencent", "Microsoft", "Acer",
   // "National Aeronautics and Space Administration"];
   curPage = 0;
+  API_URL = "http://epsilon.cs.vt.edu:8080/"
 
   constructor(public dialog: MatDialog, private http: HttpClient) { //
 
@@ -49,7 +50,7 @@ export class StudentComponent implements OnInit {
 
   ngOnInit(): void {
     //this.http.get<Company[]>("http://localhost:4200/assets/companies.json") // testing
-    this.http.get<Company[]>("http://localhost:8080/api/companies")           // actual
+    this.http.get<Company[]>(this.API_URL+"companies")           // actual
       //.map(data => _.values(data))                                            //
       .subscribe(data => {                                                    //
         compObjs = data;                                                 //
@@ -109,10 +110,12 @@ export class StudentComponentDialog {
     this.dialogRef.close();
   }
 
+  API_URL = "http://epsilon.cs.vt.edu:8080/"
+
   ngOnInit(): void {
     // Get careerfair table, get max id value from Array
     //this.http.get<CareerFair[]>("http://localhost:4200/assets/careerfairs.json") // testing
-    this.http.get<CareerFair[]>("http://localhost:8080/api/careerfairs")          // actual
+    this.http.get<CareerFair[]>(this.API_URL+"careerfairs")          // actual
       .subscribe(data => {                                                          //
         this.cfid = Math.max.apply(Math, data.map(a => a.id));                      //
 
@@ -157,7 +160,7 @@ export class StudentComponentDialog {
     }                           //
 
     //this.http.post('http://localhost:4200/assets/interviews.json', newinterview); // testing
-    this.http.post("http://localhost:8080/api/interviews", newinterview);           // actual
+    this.http.post(this.API_URL+"interviews", newinterview);           // actual
 
     console.log(newinterview);
 
