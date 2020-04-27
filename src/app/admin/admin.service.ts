@@ -22,12 +22,6 @@ export class AdminService {
     })
   }
 
-  checkToken(){
-    let token = localStorage.getItem('token')
-    //TODO check token expiration date
-    return this.router.parseUrl('/login')
-  }
-
   getCompaniesHTTP(): Observable<any> {
     return this.http.get(this.API_COMPANY)
   }

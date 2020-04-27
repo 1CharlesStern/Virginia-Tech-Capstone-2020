@@ -15,12 +15,17 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  EXPIRATION = 7 * 24 * 60 * 60 * 1000 //One week, in ms
+
   checkAuth(pwd: any){
-    this.service.submitLogin(pwd.value).subscribe(
+    localStorage.setItem('expiration', (new Date(new Date().valueOf() + this.EXPIRATION)).valueOf().toString())
+    this.router.navigate(['/admin'])
+    //TODO enable when login is working
+    /*this.service.submitLogin(pwd.value).subscribe(
       data => {
         if (data){
-          localStorage.set('token', data)
-          //TODO token expiration
+          localStorage.setItem('token', data)
+          localStorage.setItem('expiration', (new Date(new Date().valueOf() + EXPIRATION)).valueOf().toString())
           this.router.navigate(['/admin'])
         }
         else {
@@ -30,7 +35,7 @@ export class LoginComponent implements OnInit {
       error => {
         this.router.navigate([''])
       }
-    )
+    )*/
   }
 
 }
