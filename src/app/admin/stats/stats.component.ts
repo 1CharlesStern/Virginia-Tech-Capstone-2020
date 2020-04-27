@@ -62,7 +62,7 @@ export class StatsComponent implements OnInit {
 
   compObjs = [];
 
-  API_URL = "http://epsilon.cs.vt.edu:8080/"
+  API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
 
   constructor(private http: HttpClient) { }
 

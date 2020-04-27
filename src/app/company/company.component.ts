@@ -25,7 +25,7 @@ export class CompanyComponent implements OnInit {
   CALENDAR_HOUR_START = 7
   CALENDAR_HOUR_END = 20
 
-  API_URL = "http://epsilon.cs.vt.edu:8080/"
+  API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
 
   ngOnInit(): void {
     this.id = this.getInterviews(this.route.snapshot.paramMap.get('id'))

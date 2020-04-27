@@ -42,7 +42,7 @@ export class StudentComponent implements OnInit {
   // "Cisco", "General Electric", "ASUS", "Tencent", "Microsoft", "Acer",
   // "National Aeronautics and Space Administration"];
   curPage = 0;
-  API_URL = "http://epsilon.cs.vt.edu:8080/"
+  API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
 
   constructor(public dialog: MatDialog, private http: HttpClient) { //
 
@@ -110,7 +110,7 @@ export class StudentComponentDialog {
     this.dialogRef.close();
   }
 
-  API_URL = "http://epsilon.cs.vt.edu:8080/"
+  API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
 
   ngOnInit(): void {
     // Get careerfair table, get max id value from Array

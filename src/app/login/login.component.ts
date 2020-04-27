@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   }
 
   checkAuth(pwd: any){
-    this.service.submitLogin(sha256(pwd.value)).subscribe(
+    this.service.submitLogin(pwd.value).subscribe(
       data => {
         if (data){
           localStorage.set('token', data)

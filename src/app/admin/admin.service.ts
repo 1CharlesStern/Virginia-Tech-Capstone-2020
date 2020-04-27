@@ -12,9 +12,9 @@ export class AdminService {
   constructor(private http: HttpClient, private router: Router) { }
 
   COMPANY_URL_BASE = 'http://epsilon.cs.vt.edu/test-app/company/'
-  API_URL = "http://epsilon.cs.vt.edu:8080/"
+  API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
   API_COMPANY = this.API_URL+"companies"
-  API_AUTH = this.API_URL+'users'
+  API_AUTH = this.API_URL+'users/login'
 
   options = {
     headers: new HttpHeaders({
