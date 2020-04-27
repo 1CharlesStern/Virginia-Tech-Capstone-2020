@@ -1,13 +1,13 @@
 #button_container {
   width: 100%;
-  margin-right: 0px;
+  max-height: 10%;
+  padding-top: 1%;
   text-align: right;
 }
 
 .title {
   margin: auto;
   text-align: center;
-  padding: 15px;
 }
 
 button {
@@ -18,4 +18,6 @@ button {
 
 .arrow {
   cursor: pointer;
+  margin-right: 20px;
+  font-size: 32px;
 }
