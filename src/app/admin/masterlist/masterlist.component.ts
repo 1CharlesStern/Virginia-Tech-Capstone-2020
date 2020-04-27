@@ -37,7 +37,7 @@ export class MasterlistComponent implements OnInit {
     }
     let max_page = Math.floor(this.data.length/this.PAGE_SIZE)
     if (max_page % this.PAGE_SIZE == 0){
-      max_page--
+      page = max_page-1
     }
     if (page > max_page){
       page = max_page

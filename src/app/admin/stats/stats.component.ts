@@ -66,12 +66,17 @@ export class StatsComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
+  ngOnInit(): void {
+    this.getCompanies();
+  }
+
   getCompanies(): void {
     this.http.get<Company[]>(this.API_URL+"companies") // testing
       //.map(data => _.values(data))                                            //
       .subscribe(data => {                                                    //
 
         this.compObjs = data;
+        this.getCareerFairs();
     });;
   }
 
@@ -83,6 +88,8 @@ export class StatsComponent implements OnInit {
         this.cfid = Math.max.apply(Math, data.map(a => a.id));                                         //
         this.selectedFair = data.find(o => o.id === this.cfid).id.toString();
         this.careerFairs = data.map(a => a.name);
+
+        this.getInterviews();
     });;
   }
 
@@ -113,7 +120,8 @@ export class StatsComponent implements OnInit {
           }
         }
 
-        this.numInterviews = this.data.length                                   //
+        this.numInterviews = this.data.length
+                                           //
     });;
   }
 
@@ -123,21 +131,45 @@ export class StatsComponent implements OnInit {
     this.ngOnInit();
   }
 
-  ngOnInit(): void {
-    this.getCompanies();
-    this.getCareerFairs();
-    this.getInterviews();
-  }
-
-
-
   sort(index: Number, isAscending: Boolean){
-    //TODO sorting
-
-
     let studentEnable = (index == 1)
     let companyEnable = (index == 2)
     let timeEnable = (index == 3)
+
+    if (!isAscending){
+      if (studentEnable){
+        this.data.sort(function(a, b){
+            return a.name.localeCompare(b.name)
+        })
+      }
+      else if (companyEnable){
+        this.data.sort(function(a, b){
+            return a.company.localeCompare(b.company)
+        })
+      }
+      else {
+        this.data.sort(function(a, b){
+            return a.time.valueOf() < b.time.valueOf() ? 1 : -1
+        })
+      }
+    }
+    if (isAscending){
+      if (studentEnable){
+        this.data.sort(function(a, b){
+          return -1*(a.name.localeCompare(b.name))
+        })
+      }
+      else if (companyEnable){
+        this.data.sort(function(a, b){
+            return -1*(a.company.localeCompare(b.company))
+        })
+      }
+      else {
+        this.data.sort(function(a, b){
+            return -1*(a.time.valueOf() < b.time.valueOf() ? 1 : -1)
+        })
+      }
+    }
 
     this.studentDown.nativeElement.hidden = isAscending && studentEnable
     this.studentUp.nativeElement.hidden = !isAscending || !studentEnable
@@ -158,8 +190,12 @@ export class StatsComponent implements OnInit {
     if (page < 0){
       page = 0
     }
-    if (page > (this.data.length/9)-1){
-      page = (this.data.length/9)-1
+    let max_page = Math.floor(this.data.length/this.PAGE_SIZE)
+    if (max_page % this.PAGE_SIZE == 0){
+      page = max_page-1
+    }
+    if (page > max_page){
+      page = max_page
     }
     this.curPage = page
   }
