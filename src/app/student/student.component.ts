@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient } from '@angular/common/http';  //
+import { HttpClient, HttpHeaders } from '@angular/common/http';  //
+import { sha256 } from 'js-sha256';
 import { Observable } from "rxjs";         //
 
 interface Company { //
@@ -37,31 +38,26 @@ let compObjs = []; //
 export class StudentComponent implements OnInit {
 
 
-  companies: string[] = []; //
-  // companies = ["Northrop Grumman", "Apple", "Google", "Anthem",
-  // "Cisco", "General Electric", "ASUS", "Tencent", "Microsoft", "Acer",
-  // "National Aeronautics and Space Administration"];
+  companies: string[] = [];
   curPage = 0;
   API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
 
   constructor(public dialog: MatDialog, private http: HttpClient) { //
 
   }
-
+  /*
+    GETs companies during initialization
+  */
   ngOnInit(): void {
-    //this.http.get<Company[]>("http://localhost:4200/assets/companies.json") // testing
-    this.http.get<Company[]>(this.API_URL+"companies")           // actual
-      //.map(data => _.values(data))                                            //
-      .subscribe(data => {                                                    //
-        compObjs = data;                                                 //
-
-        this.companies = compObjs.map(a => a.name);                      //
-
-        //console.log(data);                                                  //
-        //console.log(this.companies);                                        //
-    });;                                                                      //
+    this.http.get<Company[]>(this.API_URL+"companies")
+      .subscribe(data => {
+        compObjs = data;
+        this.companies = compObjs.map(a => a.name);
+    });
   }
-
+  /*
+    Opens the sign-in modal (see bottom)
+  */
   openDialog(company: String): void {
     const dialogRef = this.dialog.open(StudentComponentDialog, {
       width: '250px',
@@ -72,7 +68,9 @@ export class StudentComponent implements OnInit {
 
     });
   }
-
+  /*
+    Returns the number of pages in the data
+  */
   pages(): any {
     while (this.companies.length % 9 != 0){
       //Fill empty slots so that the table looks the same
@@ -80,7 +78,9 @@ export class StudentComponent implements OnInit {
     }
     return Array(this.companies.length/9)
   }
-
+  /*
+    Navigates to another page
+  */
   paginate(page: number): void{
     if (page < 0){
       page = 0
@@ -92,17 +92,18 @@ export class StudentComponent implements OnInit {
   }
 
 }
+
+
+/*
+  This nested component controls the modal that appears
+  when a user clicks "Sign In" for a particular company
+*/
 @Component({
   selector: 'app-student-dialog',
   templateUrl: 'app-student-dialog.html',
   styleUrls: ['./student.component.css']
 })
 export class StudentComponentDialog {
-
-
-
-  submitted = false;
-  cfid: number;     //
 
   constructor(public dialogRef: MatDialogRef<StudentComponentDialog>,
     @Inject(MAT_DIALOG_DATA) public data: string, private http: HttpClient) {}
@@ -112,18 +113,33 @@ export class StudentComponentDialog {
 
   API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
 
-  ngOnInit(): void {
-    // Get careerfair table, get max id value from Array
-    //this.http.get<CareerFair[]>("http://localhost:4200/assets/careerfairs.json") // testing
-    this.http.get<CareerFair[]>(this.API_URL+"careerfairs")          // actual
-      .subscribe(data => {                                                          //
-        this.cfid = Math.max.apply(Math, data.map(a => a.id));                      //
+  submitted = false;
+  cfid: number;
 
-        console.log("GET interviews");
-        console.log(data);                                                        //
+  //Used in POSTs
+  options = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  }
+  /*
+    GET careerfair table, only using the max value
+    This is used to track which careerfair an interview
+    originates from
+  */
+  ngOnInit(): void {
+    this.http.get<CareerFair[]>(this.API_URL+"careerfairs")
+      .subscribe(data => {
+        this.cfid = Math.max.apply(Math, data.map(a => a.id));
     });;
   }
 
+  /*
+    Takes the value entered in the Student ID field and
+    validates it.  Valid IDs are numeric, less than 10
+    characters long, and begin with a 9.
+    Also scrubs off extraneous characters from card swipers.
+  */
   validateNumber() {
     var obj = <HTMLInputElement>document.getElementById("txtStudentID");
     var start = obj.value.indexOf('9');
@@ -137,32 +153,31 @@ export class StudentComponentDialog {
   }
 
   submit(event: Event){
+    //Confirm validation of ID
     event.preventDefault();
     if (!this.validateNumber()){
       alert('The value you have entered is invalid.');
       return;
     }
 
+    //Compose request
     var id = (<HTMLInputElement>document.getElementById("txtStudentID")).value;
     var company = this.data
 
-    var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var today = new Date().toISOString()
 
-    let newinterview = {        //
-      studentIDNumber: id,  //
-      studentName: (<HTMLInputElement>document.getElementById("txtStudentName")).value,      //
-      companyID: compObjs.find(o => o.name === company).id,        //
-      date: date,             //
-      time: time,             //
-      careerFairID: this.cfid      //
-    }                           //
+    let newinterview = {
+      studentIDNumber: sha256(id),
+      studentName: (<HTMLInputElement>document.getElementById("txtStudentName")).value,
+      companyID: compObjs.find(o => o.name === company).id,
+      time: today.substring(11, 19),
+      date: today.substring(0, 10),
+      careerFairID: this.cfid
+    }
 
-    //this.http.post('http://localhost:4200/assets/interviews.json', newinterview); // testing
-    this.http.post(this.API_URL+"interviews", newinterview);           // actual
-
-    console.log(newinterview);
+    //Send request
+    this.http.post(this.API_URL+"interviews", JSON.stringify(newinterview), this.options)
+      .subscribe();
 
     this.submitted = true
   }
