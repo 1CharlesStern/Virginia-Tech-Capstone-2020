@@ -42,10 +42,11 @@ export class AdminService {
     return this.http.delete(this.API_COMPANY+'/'+id, this.options)
   }
 
-  submitLogin(hash: string): Observable<any>{
+  submitLogin(user: string, hash: string): Observable<any>{
     let login = {}
-    login['username'] = 'admin';
-    login['password'] = hash
+    login['username'] = user;
+    login['password'] = hash;
+    console.log(JSON.stringify(login))
     return this.http.post(this.API_AUTH, login, {headers: this.headers, observe: 'response'})
   }
 }

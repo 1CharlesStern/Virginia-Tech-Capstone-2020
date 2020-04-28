@@ -1,6 +1,8 @@
 <p *ngIf="failure" class="danger">Authentication Failure</p>
 <div>
+  <label for="username" class="clickable">Username: </label><br>
+  <input type="input" class="clickable" #username name="username"><br>
   <label for="password" class="clickable">Password: </label><br>
   <input type="password" class="clickable" #password name="password"><br>
-  <input type="submit" class="clickable" value="Submit" (click)="checkAuth(password); password.value = ''">
+  <input type="submit" class="clickable" value="Submit" (click)="checkAuth(username, password); password.value = ''">
 </div>

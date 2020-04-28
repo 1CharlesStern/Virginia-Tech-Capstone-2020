@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
   failure = false
   EXPIRATION = 7 * 24 * 60 * 60 * 1000 //One week, in ms
 
-  checkAuth(pwd: any){
-    this.service.submitLogin(pwd.value).subscribe(
+  checkAuth(usr: any, pwd: any){
+    this.service.submitLogin(usr.value, sha256(pwd.value)).subscribe(
       resp => {
         if (resp){
           localStorage.setItem('token', resp.headers.get('Authorization'))
@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error => {
+        console.log(error)
         this.failure = true
       }
     )
