@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { MasterlistComponent } from './admin/masterlist/masterlist.component';
 import { TruncatePipe } from './truncate.pipe';
 import { StatsComponent } from './admin/stats/stats.component';
+import { AdminInterceptor } from './admin/admin.interceptor';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
@@ -22,8 +23,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/moment';
 import * as moment from 'moment';
-
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 export function momentAdapterFactory() {
@@ -62,6 +61,11 @@ export function momentAdapterFactory() {
         minWidth: '450px',
         minHeight: '200px',
       } as MatDialogConfig
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AdminInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

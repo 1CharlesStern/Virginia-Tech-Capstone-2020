@@ -22,8 +22,7 @@ export class LoginComponent implements OnInit {
     this.service.submitLogin(pwd.value).subscribe(
       resp => {
         if (resp){
-          let rawToken = resp.headers.get('Authorization')
-          localStorage.setItem('token', rawToken.substring(7, rawToken.length))
+          localStorage.setItem('token', resp.headers.get('Authorization'))
           console.log(resp.headers.get('Authorization'))
           localStorage.setItem('expiration', (new Date(new Date().valueOf() + this.EXPIRATION)).valueOf().toString())
           this.router.navigate(['/admin'])
