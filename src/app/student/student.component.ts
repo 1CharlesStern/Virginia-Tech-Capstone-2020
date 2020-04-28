@@ -40,6 +40,9 @@ export class StudentComponent implements OnInit {
 
   companies: string[] = [];
   curPage = 0;
+  maxPages = 0;
+  pageOffset = 0;
+  PAGE_SIZE = 9;
   API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
 
   constructor(public dialog: MatDialog, private http: HttpClient, private cd: ChangeDetectorRef) { //
@@ -77,7 +80,40 @@ export class StudentComponent implements OnInit {
       //Fill empty slots so that the table looks the same
       this.companies.push("");
     }
-    return Array(this.companies.length/9)
+    let result = Math.floor(this.companies.length / this.PAGE_SIZE)
+
+    let indexes = Array()
+    this.maxPages = result
+    if (result <= 5){
+      for (let i = 0; i < result; i++) {
+        indexes.push(i+1)
+      }
+    }
+    else {
+      if (this.curPage-2 >= 0 && this.curPage+2 < result){
+        this.pageOffset = 0
+      }
+      else if (this.curPage+2 < result){
+        if (this.curPage-1 >= 0){
+          this.pageOffset = 1
+        }
+        else {
+          this.pageOffset = 2
+        }
+      }
+      else if (this.curPage-2 >= 0){
+        if (this.curPage+1 < result){
+          this.pageOffset = -1
+        }
+        else {
+          this.pageOffset = -2
+        }
+      }
+      for (let i = this.curPage-2+this.pageOffset; i <= this.curPage+2+this.pageOffset; i++) {
+        indexes.push(i+1)
+      }
+    }
+    return indexes
   }
   /*
     Navigates to another page
@@ -90,6 +126,7 @@ export class StudentComponent implements OnInit {
       page = (this.companies.length/9)-1
     }
     this.curPage = page
+    this.pages()
   }
 
 }

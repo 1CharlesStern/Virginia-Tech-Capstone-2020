@@ -32,6 +32,8 @@
 </table>
 <div id="page-buttons">
   <button type="button" class="arrow pager" (click)="paginate(curPage-1)"><mat-icon>arrow_back</mat-icon></button>
-  <button type="button" class="pager" *ngFor="let page of pages(); index as i" (click)="paginate(i)">{{ i+1 }}</button>
+  <button type="button" class="pager" *ngIf="curPage-3+pageOffset >= 0 && maxPages > 5" (click)="paginate(0)">...</button>
+  <button type="button" class="pager" *ngFor="let page of pages()" (click)="paginate(page-1)">{{ page }}</button>
+  <button type="button" class="pager" *ngIf="curPage+3-pageOffset < maxPages && maxPages > 5"(click)="paginate(1000000)">...</button>
   <button type="button" class="arrow pager" (click)="paginate(curPage+1)"><mat-icon>arrow_forward</mat-icon></button>
 </div>
