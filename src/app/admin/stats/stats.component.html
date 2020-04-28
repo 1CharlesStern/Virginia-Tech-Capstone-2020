@@ -2,20 +2,20 @@
   <form class="container">
     <h1>Add New Career Fair</h1>
     <h3>Career Fair Name:</h3>
-    <input type="text" name="name"><br>
-    <input type="submit" value="Submit">
+    <input type="text" name="name" id="addFairInput"><br>
+    <input type="submit" value="Submit" (click)="addFairHandler($event)">
   </form>
   <div class="container">
     <h1>Change Active Career Fair</h1>
-    <select>
-      <option class="button container" *ngFor="let fair of careerFairs" (click)="changeFair(fair)">
+    <select (change)="selectFairHandler($event)">
+      <option class="button container" *ngFor="let fair of careerFairs" [selected]="fair == selectedFair">
         <p *ngIf="fair != selectedFair">{{fair}}</p>
         <p *ngIf="fair == selectedFair">{{fair}} -- Active Now</p>
       </option>
     </select>
     <p>Note: Companies only see interviews from the last 7 days.</p>
   </div>
-  <button type="button" class="danger clickable">Delete Career Fair</button>
+  <button type="button" class="danger clickable" (click)="deleteFair()">Delete Career Fair</button>
 </div>
 <div id="upfront">
   <div class="section">
@@ -60,9 +60,9 @@
     </div>
   </th>
   <tr *ngFor="let interview of data.slice(curPage, curPage+PAGE_SIZE)">
-    <td class="limited">{{interview.name}}</td>
-    <td class="limited">{{interview.company}}</td>
-    <td class="limited">{{interview.time | date:dateFormat}}</td>
+    <td class="limited">{{interview.studentName}}</td>
+    <td class="limited">{{interview.companyName}}</td>
+    <td class="limited">{{interview.timeString | date:dateFormat}}</td>
   </tr>
 </table>
 <div class="pagerbox">
