@@ -20,35 +20,64 @@ export class MasterlistComponent implements OnInit {
   PAGE_SIZE = 8;
 
   curPage = 0;
+  maxPages = 0;
+  pageOffset = 0;
 
-  data = [
-    /*
-    example: {
-    "id" : 4,
-    "name" : "company",
-    "url" : "http://epsilon.cs.vt.edu/company/y42fp",
-    "interviews" : []
-  }*/
-  ]
+  data = []
 
   paginate(page: number): void{
     if (page < 0){
       page = 0
     }
-    let max_page = Math.floor(this.data.length/this.PAGE_SIZE)
-    if (max_page % this.PAGE_SIZE == 0){
-      page = max_page-1
+    this.maxPages = Math.floor(this.data.length/this.PAGE_SIZE)
+    if (this.data.length % this.PAGE_SIZE == 0){
+      page = this.maxPages-1
     }
-    if (page > max_page){
-      page = max_page
+    if (page > this.maxPages){
+      page = this.maxPages
     }
     this.curPage = page
+    this.pages()
   }
 
   pages() {
-    let result = this.data.length / this.PAGE_SIZE
-    result = Math.floor(result)+1
-    return Array(result);
+    let result = Math.floor(this.data.length / this.PAGE_SIZE)
+    if  (this.data.length % this.PAGE_SIZE != 0){
+      result = result+1
+    }
+
+    let indexes = Array()
+    this.maxPages = result
+    if (result <= 5){
+      for (let i = 0; i < result; i++) {
+        indexes.push(i+1)
+      }
+    }
+    else {
+      if (this.curPage-2 >= 0 && this.curPage+2 < result){
+        this.pageOffset = 0
+      }
+      else if (this.curPage+2 < result){
+        if (this.curPage-1 >= 0){
+          this.pageOffset = 1
+        }
+        else {
+          this.pageOffset = 2
+        }
+      }
+      else if (this.curPage-2 >= 0){
+        if (this.curPage+1 < result){
+          this.pageOffset = -1
+        }
+        else {
+          this.pageOffset = -2
+        }
+      }
+      for (let i = this.curPage-2+this.pageOffset; i <= this.curPage+2+this.pageOffset; i++) {
+        indexes.push(i+1)
+      }
+    }
+    return indexes
   }
 
   sort() {

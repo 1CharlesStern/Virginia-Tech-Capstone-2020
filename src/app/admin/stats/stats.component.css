@@ -29,12 +29,12 @@ input {
   color: white;
   position: fixed;
   bottom: 3%;
-  left: 25px;
+  left: 1%;
 }
 
 .sidebar {
   height: 100%;
-  width: 300px;
+  width: 20%;
   z-index: 1;
   top: 20%;
   left: 25px;
@@ -45,15 +45,16 @@ input {
 
 .container {
   border-style: solid;
-  margin-bottom: 100px;
+  margin-bottom: 30%;
   padding: 20px;
 }
 
 .pagerbox {
   position: absolute;
-  bottom: 10%;
+  bottom: 3%;
   left: 0;
   right: 0;
+  width: 30%;
   margin: auto;
 }
 
