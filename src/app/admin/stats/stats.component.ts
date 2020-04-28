@@ -1,29 +1,29 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';  //
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-interface Company { //
-  id: number,       //
-  name: string,     //
-  url: string       //
-}                   //
+interface Company {
+  id: number,
+  name: string,
+  url: string
+}
 
-interface CareerFair {        //
-  id: number,                 //
-  name: string,               //
-  numberOfCompanies: number,  //
-  numberOfStudents: number,   //
-  numberOfInterviews: number  //
-}                             //
+interface CareerFair {
+  id: number,
+  name: string,
+  numberOfCompanies: number,
+  numberOfStudents: number,
+  numberOfInterviews: number
+}
 
-interface Interview {       //
-  id: string,               //
-  studentIDNumber: number,  //
-  studentName: string,      //
-  companyID: number,        //
-  date: string,             //
-  time: string,             //
-  careerFairID: number      //
-}                           //
+interface Interview {
+  id: string,
+  studentIDNumber: number,
+  studentName: string,
+  companyID: number,
+  date: string,
+  time: string,
+  careerFairID: number
+}
 
 @Component({
   selector: 'app-stats',
@@ -32,9 +32,9 @@ interface Interview {       //
 })
 export class StatsComponent implements OnInit {
 
-  numStudents = 100
-  numInterviews = 300
-  numCompanies = 50
+  numStudents = 0
+  numInterviews = 0
+  numCompanies = 0
 
   dateFormat = 'MMM d, y, h:mm a'
 
@@ -66,6 +66,13 @@ export class StatsComponent implements OnInit {
 
   API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
 
+  //Used in POSTs
+  options = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  }
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -73,9 +80,8 @@ export class StatsComponent implements OnInit {
   }
 
   getCompanies(): void {
-    this.http.get<Company[]>(this.API_URL+"companies") // testing
-      //.map(data => _.values(data))                                            //
-      .subscribe(data => {                                                    //
+    this.http.get<Company[]>(this.API_URL+"companies")
+      .subscribe(data => {
 
         this.compObjs = data;
         this.getCareerFairs();
@@ -83,12 +89,11 @@ export class StatsComponent implements OnInit {
   }
 
   getCareerFairs(): void {
-    this.http.get<CareerFair[]>(this.API_URL+"careerfairs") // testing
-      //.map(data => _.values(data))                                            //
-      .subscribe(data => {                                                    //
+    this.http.get<CareerFair[]>(this.API_URL+"careerfairs")
+      .subscribe(data => {
 
         this.cfid = Math.max.apply(Math, data.map(a => a.id));                                         //
-        this.selectedFair = data.find(o => o.id === this.cfid).id.toString();
+        this.selectedFair = data.find(o => o.id === this.cfid).name.toString();
         this.careerFairs = data.map(a => a.name);
 
         this.getInterviews();
@@ -96,41 +101,97 @@ export class StatsComponent implements OnInit {
   }
 
   getInterviews(): void {
-    this.http.get<Interview[]>(this.API_URL+"interviews") // testing
-      //.map(data => _.values(data))                                            //
+    this.http.get<Interview[]>(this.API_URL+"interviews")
       .subscribe(data => {
 
+        // reset interview table
+        this.data = [];
         this.numStudents = 0;
-        this.numCompanies = 0;                                             //
+        this.numCompanies = 0;
+        this.numInterviews = 0;
 
+        //console.log(this.cfid)
         for (let item of data) {
-          console.log(item);
-          console.log(this === undefined);
+          //console.log(item);
+          // console.log(this === undefined);
           if(item.careerFairID === this.cfid) {
 
             let companyName = this.compObjs.find(o => o.id === item.companyID).name;
 
             // increment numStudents/numCompanies if unique
-            if (this.data.find(o => o.name === item.studentName) === undefined) { this.numStudents++ }
-            if (this.data.find(o => o.company === companyName) === undefined) { this.numCompanies++ }
+            if (this.data.find(o => o.studentName === item.studentName) === undefined) { this.numStudents++ }
+            if (this.data.find(o => o.companyName === companyName) === undefined) { this.numCompanies++ }
 
             this.data.push({
-              name: item.studentName,
-              company: companyName,
-              time: new Date(item.date.toString() + 'T' + item.time.toString())
+              // id: item.id,
+              // name: item.studentName,
+              // company: companyName,
+              // time: new Date(item.date.toString() + 'T' + item.time.toString())
+
+              id: item.id,
+              studentIDNumber: item.studentIDNumber,
+              studentName: item.studentName,
+              companyID: item.companyID,
+              date: item.date,
+              time: item.time,
+              careerFairID: this.cfid,
+
+              // new fields for display purposes
+              companyName: companyName,
+              timeString: new Date(item.date.toString() + 'T' + item.time.toString())
             });
           }
         }
 
         this.numInterviews = this.data.length
-                                           //
     });;
   }
 
-  deleteFair(): void {
-    this.http.delete(this.API_URL+"careerfairs/"+this.selectedFair) //testing
-    this.careerFairs.splice(this.careerFairs.indexOf(this.selectedFair), 1);
+  // event passed when a new fair is added
+  // call addFair with value of form
+  addFairHandler(event: any) {
+    // confirm fair doesn't exist
+    event.preventDefault();
+    let newfair = (<HTMLInputElement>document.getElementById("addFairInput")).value.trim()
+    //console.log(newfair);
+    if (this.careerFairs.includes(newfair)) {
+      alert('Please use a unique name for the new career fair.')
+      return;
+    }
+    this.addFair(newfair);
+  }
+
+  addFair(newfair: string) {
+
+    let nfobj = {
+      name: newfair,
+      numberOfCompanies: 0,
+      numberOfStudents: 0,
+      numberOfInterviews: 0
+    }
+
+    console.log(nfobj)
+
+    this.http.post(this.API_URL+"careerfairs", JSON.stringify(nfobj), this.options)
+      .subscribe();
+
     this.ngOnInit();
+  }
+
+  // event passed when a different career fair is selected from dropdown menu
+  // call changeFair with value of selected option
+  selectFairHandler(event: any) {
+    this.changeFair(event.target.value);
+  }
+
+  changeFair(choice: string){
+
+    //console.log(choice);
+
+    this.selectedFair = choice
+    this.cfid = this.careerFairs.indexOf(choice) + 1;
+
+    this.getInterviews();
   }
 
   sort(index: Number, isAscending: Boolean){
@@ -141,34 +202,34 @@ export class StatsComponent implements OnInit {
     if (!isAscending){
       if (studentEnable){
         this.data.sort(function(a, b){
-            return a.name.localeCompare(b.name)
+            return a.studentName.localeCompare(b.studentName)
         })
       }
       else if (companyEnable){
         this.data.sort(function(a, b){
-            return a.company.localeCompare(b.company)
+            return a.companyName.localeCompare(b.companyName)
         })
       }
       else {
         this.data.sort(function(a, b){
-            return a.time.valueOf() < b.time.valueOf() ? 1 : -1
+            return a.timeString.valueOf() < b.timeString.valueOf() ? 1 : -1
         })
       }
     }
     if (isAscending){
       if (studentEnable){
         this.data.sort(function(a, b){
-          return -1*(a.name.localeCompare(b.name))
+          return -1*(a.studentName.localeCompare(b.studentName))
         })
       }
       else if (companyEnable){
         this.data.sort(function(a, b){
-            return -1*(a.company.localeCompare(b.company))
+            return -1*(a.companyName.localeCompare(b.companyName))
         })
       }
       else {
         this.data.sort(function(a, b){
-            return -1*(a.time.valueOf() < b.time.valueOf() ? 1 : -1)
+            return -1*(a.timeString.valueOf() < b.timeString.valueOf() ? 1 : -1)
         })
       }
     }
@@ -243,11 +304,6 @@ export class StatsComponent implements OnInit {
     return indexes
   }
 
-  changeFair(choice: string){
-    this.selectedFair = choice
-    this.cfid = this.careerFairs.indexOf(choice) + 1;
 
-    this.getInterviews();
-  }
 
 }
