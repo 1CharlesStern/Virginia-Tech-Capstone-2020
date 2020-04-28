@@ -19,9 +19,13 @@ export class AdminInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     //update the request parameters
-    const updatedRequest = request.clone({
-      headers: request.headers.set("Authorization", localStorage.getItem('token'))
-    });
+    let token = localStorage.getItem('token')
+    const updatedRequest = request
+    if (token){
+      const updatedRequest = request.clone({
+        headers: request.headers.set("Authorization", localStorage.getItem('token'))
+      });
+    }
     //send it down the line
     return next.handle(updatedRequest).pipe();
   }

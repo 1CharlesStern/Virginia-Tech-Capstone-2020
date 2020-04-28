@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
       resp => {
         if (resp){
           localStorage.setItem('token', resp.headers.get('Authorization'))
-          console.log(resp.headers.get('Authorization'))
           localStorage.setItem('expiration', (new Date(new Date().valueOf() + this.EXPIRATION)).valueOf().toString())
           this.router.navigate(['/admin'])
         }
