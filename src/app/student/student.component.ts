@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';  //
 import { sha256 } from 'js-sha256';
@@ -42,7 +42,7 @@ export class StudentComponent implements OnInit {
   curPage = 0;
   API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
 
-  constructor(public dialog: MatDialog, private http: HttpClient) { //
+  constructor(public dialog: MatDialog, private http: HttpClient, private cd: ChangeDetectorRef) { //
 
   }
   /*
@@ -53,6 +53,7 @@ export class StudentComponent implements OnInit {
       .subscribe(data => {
         compObjs = data;
         this.companies = compObjs.map(a => a.name);
+        this.cd.detectChanges();
     });
   }
   /*
