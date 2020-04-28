@@ -24,15 +24,14 @@ table {
   table-layout: fixed;
 }
 
-.clickable {
-  min-height: 64px;
-  min-width: 200px;
-  font-size: 32px;
+.title {
+  font-size: 28px;
+  min-height: 40px;
 }
 
-.title {
-  font-size: 32px;
-  min-height: 40px;
+.clickable {
+  font-size: 28px;
+  margin-bottom: 20px;
 }
 
 .close {
