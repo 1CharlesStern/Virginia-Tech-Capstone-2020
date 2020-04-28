@@ -15,17 +15,17 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  failure = false
   EXPIRATION = 7 * 24 * 60 * 60 * 1000 //One week, in ms
 
   checkAuth(pwd: any){
-    localStorage.setItem('expiration', (new Date(new Date().valueOf() + this.EXPIRATION)).valueOf().toString())
-    this.router.navigate(['/admin'])
-    //TODO enable when login is working
-    /*this.service.submitLogin(pwd.value).subscribe(
-      data => {
-        if (data){
-          localStorage.setItem('token', data)
-          localStorage.setItem('expiration', (new Date(new Date().valueOf() + EXPIRATION)).valueOf().toString())
+    this.service.submitLogin(pwd.value).subscribe(
+      resp => {
+        if (resp){
+          let rawToken = resp.headers.get('Authorization')
+          localStorage.setItem('token', rawToken.substring(7, rawToken.length))
+          console.log(resp.headers.get('Authorization'))
+          localStorage.setItem('expiration', (new Date(new Date().valueOf() + this.EXPIRATION)).valueOf().toString())
           this.router.navigate(['/admin'])
         }
         else {
@@ -33,9 +33,9 @@ export class LoginComponent implements OnInit {
         }
       },
       error => {
-        this.router.navigate([''])
+        this.failure = true
       }
-    )*/
+    )
   }
 
 }

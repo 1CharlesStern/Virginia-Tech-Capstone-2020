@@ -22,6 +22,10 @@ export class AdminService {
     })
   }
 
+  headers = new HttpHeaders({
+    'Content-Type': 'text/plain'
+  })
+
   getCompaniesHTTP(): Observable<any> {
     return this.http.get(this.API_COMPANY)
   }
@@ -42,6 +46,6 @@ export class AdminService {
     let login = {}
     login['username'] = 'admin';
     login['password'] = hash
-    return this.http.post(this.API_AUTH, login, this.options)
+    return this.http.post(this.API_AUTH, login, {headers: this.headers, observe: 'response'})
   }
 }
