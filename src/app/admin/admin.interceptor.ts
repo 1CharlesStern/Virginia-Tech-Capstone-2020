@@ -20,10 +20,10 @@ export class AdminInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     //update the request parameters
     let token = localStorage.getItem('token')
-    const updatedRequest = request
+    let updatedRequest = request
     if (token){
-      const updatedRequest = request.clone({
-        headers: request.headers.set("Authorization", localStorage.getItem('token'))
+      updatedRequest = request.clone({
+        headers: request.headers.set("Authorization", token)
       });
     }
     //send it down the line
