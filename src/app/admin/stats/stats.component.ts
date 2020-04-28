@@ -145,24 +145,6 @@ export class StatsComponent implements OnInit {
     });;
   }
 
-  deleteFair(): void {
-
-    console.log(this.selectedFair);
-    console.log(this.careerFairs);
-
-    // leave interviews from this careerfair, but mark careerFairID as -1
-    console.log(this.data);
-    for (let interview of this.data) {
-      // will return error?
-    }
-
-    // delete careerfair
-    this.http.delete(this.API_URL+"careerfairs/"+this.cfid)
-    console.log(this.API_URL+"careerfairs/"+this.cfid);
-    this.careerFairs.splice(this.careerFairs.indexOf(this.selectedFair), 1);
-    this.ngOnInit();
-  }
-
   // event passed when a new fair is added
   // call addFair with value of form
   addFairHandler(event: any) {
