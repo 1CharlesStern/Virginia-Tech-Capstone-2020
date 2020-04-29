@@ -9,10 +9,10 @@
   </div>
 
   <div *ngIf="data[0]" class="container">
-    <h2 class="primary">Latest Sign-In: {{data[0].studentName}} {{data[0].time | date: dateFormat}}</h2>
+    <h2 class="primary">Latest Sign-In: {{data[0].studentName}} {{data[0].date + ' ' + data[0].time | date: dateFormat}}</h2>
     <h4 class="secondary">All Sign-ins:</h4>
     <cdk-virtual-scroll-viewport itemSize="30" class="viewport secondary">
-      <div *cdkVirtualFor="let person of data" class="item">{{person.studentName}} {{person.time | date: dateFormat}}</div>
+      <div *cdkVirtualFor="let person of data" class="item">{{person.studentName}} {{person.date + ' ' + person.time | date: dateFormat}}</div>
     </cdk-virtual-scroll-viewport>
   </div>
 

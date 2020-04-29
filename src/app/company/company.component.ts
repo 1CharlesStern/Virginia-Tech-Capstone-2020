@@ -43,10 +43,11 @@ export class CompanyComponent implements OnInit {
       let event: CalendarEvent =
       {
         title: entry.studentName,
-        start: entry.time,
+        start: new Date(entry.date + " " + entry.time)
       }
       result.push(event)
     }
+    debugger;
     return result
   }
 
@@ -54,6 +55,10 @@ export class CompanyComponent implements OnInit {
     let obj = (<HTMLInputElement>document.getElementById("companyInput")).value;
     if (obj){
       this.router.navigate(['/company/'+obj]);
+    }
+    this.id = this.route.snapshot.paramMap.get('id')
+    if (this.id){
+      this.getCompanies()
     }
   }
 
