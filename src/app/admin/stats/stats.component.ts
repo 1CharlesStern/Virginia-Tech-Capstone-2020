@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment'
 
 interface Company {
   id: number,
@@ -64,7 +65,7 @@ export class StatsComponent implements OnInit {
 
   compObjs = [];
 
-  API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
+  API_URL = environment.apiUrl
 
   //Used in POSTs
   options = {
@@ -200,7 +201,7 @@ export class StatsComponent implements OnInit {
     this.selectedFair = choice
     this.cfid = this.careerFairs.find(elem => elem.name == choice).id
 
-    this.getCompanies();
+    this.getInterviews();
   }
 
   /*

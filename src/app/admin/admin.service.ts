@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment'
 
 
 /*
@@ -15,7 +16,7 @@ export class AdminService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
+  API_URL = environment.apiUrl
   API_COMPANY = this.API_URL+"companies"
   API_AUTH = this.API_URL+'users/login'
 

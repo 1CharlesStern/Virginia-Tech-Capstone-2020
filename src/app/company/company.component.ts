@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment'
 
 @Component({
   selector: 'app-company',
@@ -26,7 +27,7 @@ export class CompanyComponent implements OnInit {
   CALENDAR_HOUR_START = 7
   CALENDAR_HOUR_END = 20
 
-  API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
+  API_URL = environment.apiUrl
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')

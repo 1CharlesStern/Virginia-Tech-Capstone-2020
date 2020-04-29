@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient, HttpHeaders } from '@angular/common/http';  //
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { sha256 } from 'js-sha256';
-import { Observable } from "rxjs";         //
+import { Observable } from "rxjs";
+import { environment } from '../../environments/environment'
 
 interface Company { //
   id: number,       //
@@ -43,7 +44,7 @@ export class StudentComponent implements OnInit {
   maxPages = 0;
   pageOffset = 0;
   PAGE_SIZE = 9;
-  API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
+  API_URL = environment.apiUrl
 
   constructor(public dialog: MatDialog, private http: HttpClient, private cd: ChangeDetectorRef) { //
 
