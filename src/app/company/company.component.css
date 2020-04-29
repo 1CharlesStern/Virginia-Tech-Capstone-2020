@@ -14,6 +14,8 @@
 
 .primary {
   font-size: 32px;
+  margin: auto;
+  text-align: center;
 }
 
 .secondary {

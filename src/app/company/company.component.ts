@@ -12,11 +12,12 @@ export class CompanyComponent implements OnInit {
 
   view: CalendarView = CalendarView.Day;
 
-  viewDate = new Date("March 30 2020");
+  viewDate = new Date();
 
   dateFormat = 'MMM d, y, h:mm a'
 
   id = null
+  companyData = null
 
   data = []
 
@@ -28,8 +29,10 @@ export class CompanyComponent implements OnInit {
   API_URL = "http://epsilon.cs.vt.edu:8080/cs4704/api/"
 
   ngOnInit(): void {
-    this.id = this.getInterviews(this.route.snapshot.paramMap.get('id'))
-    this.events = this.populateEvents(this.data)
+    this.id = this.route.snapshot.paramMap.get('id')
+    if (this.id){
+      this.getCompanies()
+    }
   }
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
@@ -39,7 +42,7 @@ export class CompanyComponent implements OnInit {
     for (let entry of eventData){
       let event: CalendarEvent =
       {
-        title: entry.name,
+        title: entry.studentName,
         start: entry.time,
       }
       result.push(event)
@@ -54,7 +57,7 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  getInterviews(id: String){
+  getInterviews(){
     this.http.get(this.API_URL+'interviews').subscribe(result => {
       var lastWeekInterviews = (<any[]>result).filter(function (interview) {
         //gets the date from the interview.
@@ -65,8 +68,8 @@ export class CompanyComponent implements OnInit {
         var lastweek = new Date(temp.valueOf() - 604800000);
 
         // returns the json objects that are within the last seven days.
-        return (range >= lastweek);
-      });
+        return (range >= lastweek && interview.companyID == this.companyData.id);
+      }, this);
 
       // prunes the list.
       var prunedData = lastWeekInterviews.map(o => {
@@ -78,6 +81,7 @@ export class CompanyComponent implements OnInit {
       });
 
       this.data = prunedData
+      this.events = this.populateEvents(this.data)
     })
 
     // since the data is stored in two date time formats in the json object.
@@ -85,6 +89,15 @@ export class CompanyComponent implements OnInit {
     // have an object with the studentName, a date key in yyyy-mm--dd format, and a time key.
     // example: [{studentName: "bob", Date:"1999-11-11", time: "00:00:00"}]
 
+  }
+
+  getCompanies(){
+    this.http.get(this.API_URL+'companies').subscribe(result => {
+      this.companyData = (<any[]>result).filter(interview => interview.url == this.id)[0]
+      if (this.companyData){
+        this.getInterviews()
+      }
+    })
   }
 
 }
