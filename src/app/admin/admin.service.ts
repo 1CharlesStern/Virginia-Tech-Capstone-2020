@@ -34,7 +34,7 @@ export class AdminService {
     let company = {}
     company['name'] = name
     //Generates a random company code of length 5
-    company['url'] = this.COMPANY_URL_BASE+Math.random().toString(36).substring(2, 7)
+    company['url'] = Math.random().toString(36).substring(2, 7)
     return this.http.post(this.API_COMPANY, JSON.stringify(company), this.options)
   }
 
