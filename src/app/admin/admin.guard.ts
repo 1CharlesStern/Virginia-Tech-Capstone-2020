@@ -3,6 +3,14 @@ import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnaps
 import { Observable } from 'rxjs';
 import { AdminService } from './admin.service';
 
+/*
+  Prevents unauthorized access to /admin resources.  Unauthorized users
+  are redirected to the administrator login page.
+
+  Only token expiration date is checked, which can be easily spoofed.  However,
+  without a valid token, users will be unable to access certain
+  destructive API requests.
+*/
 @Injectable({
   providedIn: 'root'
 })
@@ -10,6 +18,9 @@ export class AdminGuard implements CanActivate, CanActivateChild {
 
   constructor(private service: AdminService, private router: Router) { }
 
+  /*
+    Triggers when /admin is requested
+  */
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -24,6 +35,9 @@ export class AdminGuard implements CanActivate, CanActivateChild {
         return this.router.parseUrl('/login')
       }
   }
+  /*
+    Triggers when a subset of /admin is requested
+  */
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

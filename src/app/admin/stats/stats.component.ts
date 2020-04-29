@@ -79,6 +79,9 @@ export class StatsComponent implements OnInit {
     this.getCompanies();
   }
 
+  /*
+    Sends a GET request to the server that retrieves all companies
+  */
   getCompanies(): void {
     this.http.get<Company[]>(this.API_URL+"companies")
       .subscribe(data => {
@@ -87,7 +90,9 @@ export class StatsComponent implements OnInit {
         this.getCareerFairs();
     });;
   }
-
+  /*
+    Sends a GET request to the server that retrieves all career fairs
+  */
   getCareerFairs(): void {
     this.http.get<CareerFair[]>(this.API_URL+"careerfairs")
       .subscribe(data => {
@@ -98,7 +103,10 @@ export class StatsComponent implements OnInit {
         this.getInterviews();
     });;
   }
-
+  /*
+    Sends a GET request to the server that retrieves all interviews
+    Also populates local arrays used to display data
+  */
   getInterviews(): void {
     this.http.get<Interview[]>(this.API_URL+"interviews")
       .subscribe(data => {
@@ -109,10 +117,7 @@ export class StatsComponent implements OnInit {
         this.numCompanies = 0;
         this.numInterviews = 0;
 
-        //console.log(this.cfid)
         for (let item of data) {
-          //console.log(item);
-          // console.log(this === undefined);
           if(item.careerFairID === this.cfid) {
 
             let companyName = this.compObjs.find(o => o.id === item.companyID).name;
@@ -146,20 +151,24 @@ export class StatsComponent implements OnInit {
     });;
   }
 
-  // event passed when a new fair is added
-  // call addFair with value of form
+  /*
+    Event passed when a new fair is added
+    Runs validation to ensure there are no duplicates
+  */
   addFairHandler(event: any) {
-    // confirm fair doesn't exist
     event.preventDefault();
     let newfair = (<HTMLInputElement>document.getElementById("addFairInput")).value.trim()
-    //console.log(newfair);
-    if (this.careerFairs.includes(newfair)) {
+    if (this.careerFairs.find(elem => elem.name == newfair)) {
       alert('Please use a unique name for the new career fair.')
       return;
     }
     this.addFair(newfair);
   }
 
+  /*
+    Sends a new CareerFair in a POST to the server
+    Then fetches new data
+  */
   addFair(newfair: string) {
 
     let nfobj = {
@@ -169,30 +178,35 @@ export class StatsComponent implements OnInit {
       numberOfInterviews: 0
     }
 
-    console.log(nfobj)
-
     this.http.post(this.API_URL+"careerfairs", JSON.stringify(nfobj), this.options)
       .subscribe();
 
     this.getCompanies();
   }
 
-  // event passed when a different career fair is selected from dropdown menu
-  // call changeFair with value of selected option
+  /*
+    Event passed when a different career fair is selected
+  */
   selectFairHandler(event: any) {
     this.changeFair(event.target.value);
   }
 
+  /*
+    Changes the active career fair
+    Then fetches new data
+  */
   changeFair(choice: string){
-
-    //console.log(choice);
 
     this.selectedFair = choice
     this.cfid = this.careerFairs.find(elem => elem.name == choice).id
 
-    this.getInterviews();
+    this.getCompanies();
   }
 
+  /*
+    Sorts data.  Data can be sorted in two directions, (up down)
+    using one of three sort options (name, company, time)
+  */
   sort(index: Number, isAscending: Boolean){
     let studentEnable = (index == 1)
     let companyEnable = (index == 2)
@@ -248,6 +262,9 @@ export class StatsComponent implements OnInit {
     this.timeUp.nativeElement.className = timeEnable ? "active" : "inactive"
   }
 
+  /*
+    Controls the paging buttons
+  */
   paginate(page: number): void{
     if (page < 0){
       page = 0
@@ -262,7 +279,9 @@ export class StatsComponent implements OnInit {
     this.curPage = page
     this.pages()
   }
-
+  /*
+    Initializes the paging buttons
+  */
   pages() {
     let result = Math.floor(this.data.length / this.PAGE_SIZE)
     if  (this.data.length % this.PAGE_SIZE != 0){

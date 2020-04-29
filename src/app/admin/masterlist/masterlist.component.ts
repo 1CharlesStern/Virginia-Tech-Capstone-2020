@@ -16,7 +16,7 @@ export class MasterlistComponent implements OnInit {
   ngOnInit(): void {
     this.getCompanies()
   }
-
+  //Limits number of items on one page
   PAGE_SIZE = 8;
 
   curPage = 0;
@@ -25,6 +25,9 @@ export class MasterlistComponent implements OnInit {
 
   data = []
 
+  /*
+    Controls the paging buttons
+  */
   paginate(page: number): void{
     if (page < 0){
       page = 0
@@ -40,6 +43,9 @@ export class MasterlistComponent implements OnInit {
     this.pages()
   }
 
+  /*
+    Initializes the paging buttons
+  */
   pages() {
     let result = Math.floor(this.data.length / this.PAGE_SIZE)
     if  (this.data.length % this.PAGE_SIZE != 0){
@@ -79,7 +85,9 @@ export class MasterlistComponent implements OnInit {
     }
     return indexes
   }
-
+  /*
+    Sorts data.  Data can be sorted in two directions (up down)
+  */
   sort() {
     if (this.ascendingSort){
       this.data.sort(function(a, b){
@@ -93,22 +101,30 @@ export class MasterlistComponent implements OnInit {
     }
   }
 
+  /*
+    Requests a list of all Companies from the Admin service
+  */
   getCompanies(): void {
     this.service.getCompaniesHTTP().subscribe(
       result => {
-        debugger;
         this.data = result
         this.sort()
       }
     )
   }
 
+  /*
+    Requests a Company to be removed by the Admin service
+  */
   dropCompany(index: number): void {
     if (confirm("Are you sure?")){
       this.service.dropCompanyHTTP(this.data[index]["id"]).subscribe(_ => this.getCompanies())
     }
   }
 
+  /*
+    Requests a Company to be added by the Admin service
+  */
   addCompany(name: string) {
     this.service.addCompanyHTTP(name).subscribe(_ => this.getCompanies())
   }

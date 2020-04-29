@@ -10,6 +10,10 @@ import {
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 
+/*
+  Adds the "Authorization" header to every request, so that
+  trusted users can access the admin-only API commands.
+*/
 @Injectable()
 export class AdminInterceptor implements HttpInterceptor {
   constructor() { }
@@ -18,7 +22,7 @@ export class AdminInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    //update the request parameters
+    //updates the request parameters
     let token = localStorage.getItem('token')
     let updatedRequest = request
     if (token){
@@ -26,7 +30,7 @@ export class AdminInterceptor implements HttpInterceptor {
         headers: request.headers.set("Authorization", token)
       });
     }
-    //send it down the line
+    //sends the request to its destination
     return next.handle(updatedRequest).pipe();
   }
 }
