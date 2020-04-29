@@ -91,10 +91,9 @@ export class StatsComponent implements OnInit {
   getCareerFairs(): void {
     this.http.get<CareerFair[]>(this.API_URL+"careerfairs")
       .subscribe(data => {
-
         this.cfid = Math.max.apply(Math, data.map(a => a.id));                                         //
         this.selectedFair = data.find(o => o.id === this.cfid).name.toString();
-        this.careerFairs = data.map(a => a.name);
+        this.careerFairs = data.reverse();
 
         this.getInterviews();
     });;
@@ -175,7 +174,7 @@ export class StatsComponent implements OnInit {
     this.http.post(this.API_URL+"careerfairs", JSON.stringify(nfobj), this.options)
       .subscribe();
 
-    this.ngOnInit();
+    this.getCompanies();
   }
 
   // event passed when a different career fair is selected from dropdown menu
@@ -189,7 +188,7 @@ export class StatsComponent implements OnInit {
     //console.log(choice);
 
     this.selectedFair = choice
-    this.cfid = this.careerFairs.indexOf(choice) + 1;
+    this.cfid = this.careerFairs.find(elem => elem.name == choice).id
 
     this.getInterviews();
   }

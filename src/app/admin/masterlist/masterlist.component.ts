@@ -96,6 +96,7 @@ export class MasterlistComponent implements OnInit {
   getCompanies(): void {
     this.service.getCompaniesHTTP().subscribe(
       result => {
+        debugger;
         this.data = result
         this.sort()
       }
