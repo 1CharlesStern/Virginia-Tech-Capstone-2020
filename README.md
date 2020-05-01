@@ -1,27 +1,24 @@
-# TestApp
+NOTE: When migrating application, change apiUrl in src/environments/environment.ts and environment.prod.ts.  CORS headers must also be changed in the backend server.
+For development specifically, backend CORS headers must include "localhost" for local development.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.4.
+DEVELOPMENT ENVIRONMENT
+1. Install node.js
+2. Run “npm install @angular/cli”
+2. Run “git clone https://github.com/1CharlesStern/capstone.git”
+3. Run “cd capstone”
+4. Run “ng add @angular/material”
+Use Indigo/Pink theme
+Do not set up global Angular Material typography styles
+Do not set up browser animations
+5. Run “ng add angular-calendar”
+Use Moment date adapter
+Hit enter when prompted for a project name and path
+6. Run “npm install js-sha256”
+7. Run “ng serve” and navigate to localhost:4200
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+DEPLOYMENT TO VM
+Run “git pull” on the project folder in the VM (/home/admin/CareerFairAngularApp as of this writing)
+Run “ng build --prod”
+Copy the contents of the “test-app” folder in “dist” into “/var/www/html”
+Navigate to epsilon.cs.vt.edu
