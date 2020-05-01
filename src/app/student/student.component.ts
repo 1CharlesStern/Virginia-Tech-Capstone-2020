@@ -203,14 +203,15 @@ export class StudentComponentDialog {
     var id = (<HTMLInputElement>document.getElementById("txtStudentID")).value;
     var company = this.data
 
-    var today = new Date().toISOString()
+    var today = new Date()
+    var today2 = new Date(new Date(today).getTime() + 60 * 60 * 24 * 1000);
 
     let newinterview = {
       studentIDNumber: sha256(id),
       studentName: (<HTMLInputElement>document.getElementById("txtStudentName")).value,
       companyID: compObjs.find(o => o.name === company).id,
-      time: today.substring(11, 19),
-      date: today.substring(0, 10),
+      time: today.toTimeString().substring(0, 8),
+      date: today2.toISOString().substring(0, 10),
       careerFairID: this.cfid
     }
 
