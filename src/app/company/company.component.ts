@@ -88,7 +88,7 @@ export class CompanyComponent implements OnInit {
         return obj;
       });
 
-      this.data = prunedData
+      this.data = prunedData.sort((a, b) => a.date+a.time > b.date+b.time ? 1 : -1).reverse()
       this.events = this.populateEvents(this.data)
     })
 
