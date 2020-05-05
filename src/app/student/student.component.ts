@@ -55,7 +55,7 @@ export class StudentComponent implements OnInit {
   ngOnInit(): void {
     this.http.get<Company[]>(this.API_URL+"companies")
       .subscribe(data => {
-        compObjs = data;
+        compObjs = data.sort();
         this.companies = compObjs.map(a => a.name);
         this.cd.detectChanges();
     });
@@ -199,6 +199,12 @@ export class StudentComponentDialog {
       return;
     }
 
+    //Student name cannot be empty
+    var name = (<HTMLInputElement>document.getElementById("txtStudentName")).value
+    if (name == ""){
+      return;
+    }
+
     //Compose request
     var id = (<HTMLInputElement>document.getElementById("txtStudentID")).value;
     var company = this.data
@@ -208,7 +214,7 @@ export class StudentComponentDialog {
 
     let newinterview = {
       studentIDNumber: sha256(id),
-      studentName: (<HTMLInputElement>document.getElementById("txtStudentName")).value,
+      studentName: name,
       companyID: compObjs.find(o => o.name === company).id,
       time: today.toTimeString().substring(0, 8),
       date: today2.toISOString().substring(0, 10),
