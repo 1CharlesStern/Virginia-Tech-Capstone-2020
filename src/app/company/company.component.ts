@@ -30,7 +30,7 @@ export class CompanyComponent implements OnInit {
 
   API_URL = environment.apiUrl
 
-  private updateSubscription: Subscription;     //
+  //private updateSubscription: Subscription;     //
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')
@@ -38,11 +38,13 @@ export class CompanyComponent implements OnInit {
       this.getCompanies()
     }
 
-    this.updateSubscription = interval(5000).subscribe( //
-        results => { this.getCompanies() });               //
+    // this.updateSubscription = interval(5000).subscribe( //
+    //     results => { this.getCompanies() });               //
   }
 
-  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) {
+    setInterval(() => this.ngOnInit(), 5000);
+  }
 
 
 
