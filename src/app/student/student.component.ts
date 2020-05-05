@@ -55,8 +55,8 @@ export class StudentComponent implements OnInit {
   ngOnInit(): void {
     this.http.get<Company[]>(this.API_URL+"companies")
       .subscribe(data => {
-        compObjs = data.sort();
-        this.companies = compObjs.map(a => a.name);
+        compObjs = data;
+        this.companies = compObjs.map(a => a.name).sort();
         this.cd.detectChanges();
     });
   }
