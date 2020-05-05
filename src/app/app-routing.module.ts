@@ -22,10 +22,10 @@ const routes: Routes = [{
     canActivateChild: [AdminGuard],
   },
   {path: '', component:StudentComponent},
-  {path: '**', redirectTo: ''},
   {path: 'company', component:CompanyComponent},
   {path: 'company/:id', component:CompanyComponent},
-  {path: 'login', component:LoginComponent}];
+  {path: 'login', component:LoginComponent},
+  {path: '**', redirectTo: ''}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
