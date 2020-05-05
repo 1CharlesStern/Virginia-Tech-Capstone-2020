@@ -43,7 +43,7 @@ export class CompanyComponent implements OnInit {
   }
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) {
-    setInterval(() => window.location.reload(), 5000);
+    setInterval(() => window.location.reload(), 300000);
   }
 
 
