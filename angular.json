@@ -21,6 +21,7 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
+              "src/.htaccess",
               "src/assets",
               { "glob": "package.json", "input": "../", "output": "./assets/" },
               { "glob": "careerfairs.json", "input": "./", "output": "./assets/" },
