@@ -56,6 +56,7 @@ export class CompanyComponent implements OnInit {
     let obj = (<HTMLInputElement>document.getElementById("companyInput")).value;
     if (obj){
       this.id = obj
+      this.router.navigate([this.id])
     }
     else {
       this.id = this.route.snapshot.paramMap.get('id')
