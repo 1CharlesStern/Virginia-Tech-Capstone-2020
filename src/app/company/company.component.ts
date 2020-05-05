@@ -43,7 +43,7 @@ export class CompanyComponent implements OnInit {
   }
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) {
-    setInterval(() => this.ngOnInit(), 5000);
+    setInterval(() => window.location.reload(), 5000);
   }
 
 
@@ -111,6 +111,8 @@ export class CompanyComponent implements OnInit {
   }
 
   getCompanies(){
+    console.log("updated")
+
     this.http.get(this.API_URL+'companies').subscribe(result => {
       this.companyData = (<any[]>result).filter(interview => interview.url == this.id)[0]
       if (this.companyData){
