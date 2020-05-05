@@ -3,6 +3,7 @@ import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment'
+import { Observable, interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-company',
@@ -29,14 +30,21 @@ export class CompanyComponent implements OnInit {
 
   API_URL = environment.apiUrl
 
+  private updateSubscription: Subscription;     //
+
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')
     if (this.id){
       this.getCompanies()
     }
+
+    this.updateSubscription = interval(5000).subscribe( //
+        results => { this.getCompanies() });               //
   }
 
   constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
+
+
 
   populateEvents(eventData): CalendarEvent[]{
     let result: CalendarEvent[] = []

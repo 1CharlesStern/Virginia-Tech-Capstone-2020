@@ -22,7 +22,7 @@ const routes: Routes = [{
     canActivateChild: [AdminGuard],
   },
   {path: '', component:StudentComponent},
-  {path: '**', redirectTo: ''}
+  {path: '**', redirectTo: ''},
   {path: 'company', component:CompanyComponent},
   {path: 'company/:id', component:CompanyComponent},
   {path: 'login', component:LoginComponent}];
