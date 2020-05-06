@@ -43,7 +43,9 @@ export class StudentComponent implements OnInit {
   curPage = 0;
   maxPages = 0;
   pageOffset = 0;
-  PAGE_SIZE = 9;
+  PAGE_WIDTH = 5;
+  PAGE_HEIGHT = 4;
+  PAGE_SIZE = this.PAGE_WIDTH * this.PAGE_HEIGHT;
   API_URL = environment.apiUrl
 
   constructor(public dialog: MatDialog, private http: HttpClient, private cd: ChangeDetectorRef) { //
@@ -77,7 +79,7 @@ export class StudentComponent implements OnInit {
     Returns the number of pages in the data
   */
   pages(): any {
-    while (this.companies.length % 9 != 0){
+    while (this.companies.length % this.PAGE_SIZE != 0){
       //Fill empty slots so that the table looks the same
       this.companies.push("");
     }
@@ -123,11 +125,18 @@ export class StudentComponent implements OnInit {
     if (page < 0){
       page = 0
     }
-    if (page > (this.companies.length/9)-1){
-      page = (this.companies.length/9)-1
+    if (page > (this.companies.length/this.PAGE_SIZE)-1){
+      page = (this.companies.length/this.PAGE_SIZE)-1
     }
     this.curPage = page
     this.pages()
+  }
+
+  /*
+    Returns iterable for template page
+  */
+  height(){
+    return Array(this.PAGE_HEIGHT)
   }
 
 }

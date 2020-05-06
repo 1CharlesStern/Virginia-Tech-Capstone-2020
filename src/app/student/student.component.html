@@ -1,26 +1,7 @@
 <table>
-  <tr>
-    <td *ngFor="let company of companies.slice(curPage*9, (curPage*9)+3)">
-      <mat-card class="mat-elevation-z8" *ngIf="company">
-        <mat-card-title class="title">{{ company | truncate: 20 }}</mat-card-title>
-        <mat-card-content>
-          <button type="button" class="clickable" (click)="openDialog(company)">Sign In</button>
-        </mat-card-content>
-      </mat-card>
-    </td>
-  </tr>
-  <tr>
-    <td *ngFor="let company of companies.slice((curPage*9)+3, (curPage*9)+6)">
-      <mat-card class="mat-elevation-z8" *ngIf="company">
-        <mat-card-title class="title">{{ company | truncate: 20 }}</mat-card-title>
-        <mat-card-content>
-          <button type="button" class="clickable" (click)="openDialog(company)">Sign In</button>
-        </mat-card-content>
-      </mat-card>
-    </td>
-  </tr>
-  <tr>
-    <td *ngFor="let company of companies.slice((curPage*9)+6, (curPage*9)+9)">
+  <!-- the ngFor directives generate PAGE_HEIGHT rows with PAGE_WIDTH cards in each row -->
+  <tr *ngFor="let row of height(); index as i">
+    <td *ngFor="let company of companies.slice(curPage*PAGE_SIZE+(PAGE_WIDTH*i), (curPage*PAGE_SIZE)+(PAGE_WIDTH*(i+1)))">
       <mat-card class="mat-elevation-z8" *ngIf="company">
         <mat-card-title class="title">{{ company | truncate: 20 }}</mat-card-title>
         <mat-card-content>

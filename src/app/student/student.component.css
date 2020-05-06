@@ -13,14 +13,13 @@ mat-card {
 }
 
 td {
-  padding: 2%;
-  width: 33%;
-  height: 33%;
+  padding: 1%;
+  width: 20%;
+  height: 25%;
 }
 
 table {
-  height: 80%;
-  width: 80%;
+  width: 90%;
   table-layout: fixed;
 }
 
