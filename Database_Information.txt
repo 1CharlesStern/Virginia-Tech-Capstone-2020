@@ -1,0 +1,2 @@
+Username for mySQL: Epsilon
+Password for mySQL: EpCap_SQL1

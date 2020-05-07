@@ -1,5 +1,5 @@
 NOTE: When migrating application, change apiUrl in src/environments/environment.ts and environment.prod.ts.  CORS headers must also be changed in the backend server.
-For development specifically, backend CORS headers must include "localhost" for local development.
+For local development specifically, backend CORS headers must include "localhost" for local development.
 
 DEVELOPMENT ENVIRONMENT
 1. Install node.js
